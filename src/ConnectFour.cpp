@@ -1,16 +1,16 @@
 #include "ConnectFour.hpp"
 #include <iostream>
 
-ConnectFour::ConnectFour(int rows, int cols) : BoardGame(rows, cols) {}
+ConnectFour::ConnectFour(int rows, int cols) : Game(rows, cols) {}
 
 bool ConnectFour::isValidMove(int col) const {
-    if (col < 0 || col >= cols) return false;
-    return board[0][col] == ' ';
+    if (col < 1 || col > cols) return false;
+    return board[0][col - 1] == ' ';
 }
 
 bool ConnectFour::makeMove(int col, char player) {
     if (!isValidMove(col)) return false;
-
+    col -= 1; // Ajustar para índice de base 0
     for (int row = rows - 1; row >= 0; --row) {
         if (board[row][col] == ' ') {
             board[row][col] = player;
@@ -49,7 +49,6 @@ bool ConnectFour::checkVertical(char player) const {
 }
 
 bool ConnectFour::checkDiagonal(char player) const {
-    // Diagonais (bottom left to top right)
     for (int row = 0; row <= rows - 4; ++row) {
         for (int col = 0; col <= cols - 4; ++col) {
             if (board[row][col] == player && board[row + 1][col + 1] == player &&
@@ -58,7 +57,6 @@ bool ConnectFour::checkDiagonal(char player) const {
             }
         }
     }
-    // Diagonais (top left to bottom right)
     for (int row = 3; row < rows; ++row) {
         for (int col = 0; col <= cols - 4; ++col) {
             if (board[row][col] == player && board[row - 1][col + 1] == player &&
@@ -68,6 +66,31 @@ bool ConnectFour::checkDiagonal(char player) const {
         }
     }
     return false;
+}
+
+void ConnectFour::printBoard(char currentPlayer) const {
+    std::cout << "Possíveis formas de ganhar para " << currentPlayer << ": " << countPossibleWins(currentPlayer) << '\n';
+
+    std::cout << "  ";
+    for (int col = 1; col <= cols; ++col) {
+        if(col > 1){
+          std::cout << " " << col << "  ";
+        }
+        else{
+            std::cout << col << "  ";
+        }
+       
+    }
+    std::cout << "\n";
+
+    for (const auto& row : board) {
+        std::cout << "| ";
+        for (char cell : row) {
+            std::cout << cell << " | ";
+        }
+        std::cout << "\n";
+    }
+    std::cout << std::string(cols * 4 + 2, '-') << '\n';
 }
 
 int ConnectFour::countPossibleWins(char player) const {
@@ -129,23 +152,4 @@ int ConnectFour::countPossibleWins(char player) const {
     }
 
     return count;
-}
-
-void ConnectFour::printBoard(char currentPlayer) const {
-    std::cout << "Possíveis formas de ganhar para " << currentPlayer << ": " << countPossibleWins(currentPlayer) << '\n';
-
-    std::cout << "  ";
-    for (int col = 0; col < cols; ++col) {
-        std::cout << " " << col << "  ";
-    }
-    std::cout << "\n";
-
-    for (const auto& row : board) {
-        std::cout << "| ";
-        for (char cell : row) {
-            std::cout << cell << " | ";
-        }
-        std::cout << "\n";
-    }
-    std::cout << std::string(cols * 4 + 2, '-') << '\n';
 }

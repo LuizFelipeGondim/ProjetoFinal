@@ -1,10 +1,10 @@
 #ifndef CONNECTFOUR_HPP
 #define CONNECTFOUR_HPP
 
-#include "BoardGame.hpp"
+#include "Game.hpp"
 #include <vector>
 
-class ConnectFour : public BoardGame {
+class ConnectFour : public Game {
 public:
     ConnectFour(int rows, int cols);
     bool isValidMove(int col) const override;

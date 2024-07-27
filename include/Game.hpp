@@ -1,17 +1,17 @@
-#ifndef BOARDGAME_HPP
-#define BOARDGAME_HPP
+#ifndef GAME_HPP
+#define GAME_HPP
 
 #include <vector>
 #include <string>
 
-class BoardGame {
+class Game {
 protected:
     std::vector<std::vector<char>> board;
     int rows, cols;
 
 public:
-    BoardGame(int rows, int cols);
-    virtual ~BoardGame();
+    Game(int rows, int cols);
+    virtual ~Game();
 
     virtual void printBoard() const;
     virtual bool isValidMove(int col) const = 0;
@@ -21,4 +21,4 @@ public:
     virtual void resetBoard();
 };
 
-#endif // BOARDGAME_HPP
+#endif // GAME_HPP
