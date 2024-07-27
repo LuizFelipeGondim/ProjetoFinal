@@ -1,17 +1,16 @@
-#include "BoardGame.hpp"
+#include "Game.hpp"
 #include <iostream>
 #include <algorithm>
 
-BoardGame::BoardGame(int rows, int cols) : rows(rows), cols(cols) {
+Game::Game(int rows, int cols) : rows(rows), cols(cols) {
     board.resize(rows, std::vector<char>(cols, ' '));
 }
 
-BoardGame::~BoardGame() {}
+Game::~Game() {}
 
-void BoardGame::printBoard() const {
-    // Imprime os números das colunas
+void Game::printBoard() const {
     std::cout << "  ";
-    for (int col = 0; col < cols; ++col) {
+    for (int col = 1; col <= cols; ++col) {
         std::cout << " " << col << "  ";
     }
     std::cout << "\n";
@@ -26,7 +25,7 @@ void BoardGame::printBoard() const {
     std::cout << std::string(cols * 4 + 2, '-') << '\n';
 }
 
-bool BoardGame::isBoardFull() const {
+bool Game::isBoardFull() const {
     for (const auto& row : board) {
         for (char cell : row) {
             if (cell == ' ') return false;
@@ -35,7 +34,7 @@ bool BoardGame::isBoardFull() const {
     return true;
 }
 
-void BoardGame::resetBoard() {
+void Game::resetBoard() {
     for (auto& row : board) {
         std::fill(row.begin(), row.end(), ' ');
     }
