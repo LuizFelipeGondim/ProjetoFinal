@@ -1,36 +1,44 @@
 #include "ConnectFour.hpp"
 #include <iostream>
-#include <limits>
+#include <string>
 
-bool isValidInput(int input, int min, int max) {
-    if (std::cin.fail()) {
-        std::cin.clear(); 
-        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
-    } 
-    return std::cin.good() && input >= min && input <= max;
+bool isNumber(const std::string& str) {
+    for (char c : str) {
+        if (c < '0' || c > '8') { 
+            return false;
+        }
+    }
+    return !str.empty(); 
+}
+
+bool isValidInput(const std::string& input, int min, int max) {
+    if (!isNumber(input)) {
+        return false;
+    }
+    int value = std::stoi(input);
+    return value >= min && value <= max;
 }
 
 int getBoardSizeChoice() {
-    int choice;
+    std::string choice;
     std::cout << "Escolha o tamanho do Tabuleiro:\n";
     std::cout << "1. 6x6\n";
     std::cout << "2. 6x7\n";
     std::cout << "3. 6x8\n";
     std::cout << "Digite o número da opção desejada: ";
-    std::cin >> choice;
+    std::getline(std::cin, choice);
 
     while (!isValidInput(choice, 1, 3)) {
-        std::cin.clear();
         std::cout << "ERRO: Entrada inválida. Digite um número de 1 a 3.\n";
         std::cout << "Escolha o tamanho do grid:\n";
         std::cout << "1. 6x6\n";
         std::cout << "2. 6x7\n";
         std::cout << "3. 6x8\n";
         std::cout << "Digite o número da opção desejada: ";
-        std::cin >> choice;
+        std::getline(std::cin, choice);
     }
 
-    return choice;
+    return std::stoi(choice);
 }
 
 int main() {
@@ -64,12 +72,11 @@ int main() {
         game.printBoard(currentPiece);
 
         std::cout << "Turno de " << currentPlayer << " (" << currentPiece << "): ";
-        int col;
-        std::cin >> col;
+        std::string input;
+        std::getline(std::cin, input);
 
-        if (!isValidInput(col, 1, cols) || !game.makeMove(col, currentPiece)) {
+        if (!isValidInput(input, 1, cols) || !game.makeMove(std::stoi(input), currentPiece)) {
             std::cout << "ERRO: Jogada inválida ou coluna cheia\n";
-            std::cin.clear();
             continue;
         }
 
