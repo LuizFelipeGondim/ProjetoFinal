@@ -96,57 +96,78 @@ void ConnectFour::printBoard(char currentPlayer) const {
 int ConnectFour::countPossibleWins(char player) const {
     int count = 0;
 
-    // Verificar horizontal
     for (int row = 0; row < rows; ++row) {
         for (int col = 0; col <= cols - 4; ++col) {
-            if (board[row][col] == ' ' || board[row][col] == player) {
-                if (board[row][col] == ' ' && 
-                    ((col + 3 < cols && board[row][col + 1] == player && board[row][col + 2] == player && board[row][col + 3] == player) || 
-                     (col + 2 < cols && board[row][col + 1] == player && board[row][col + 2] == player) || 
-                     (col + 1 < cols && board[row][col + 1] == player))) {
-                    ++count;
+            int emptyCount = 0;
+            int playerCount = 0;
+
+            for (int i = 0; i < 4; ++i) {
+                if (board[row][col + i] == player) {
+                    playerCount++;
+                } else if (board[row][col + i] == ' ') {
+                    emptyCount++;
                 }
+            }
+
+            if (playerCount + emptyCount >= 4 && playerCount > 0) {
+                count++;
             }
         }
     }
 
-    // Verificar vertical
     for (int col = 0; col < cols; ++col) {
         for (int row = 0; row <= rows - 4; ++row) {
-            if (board[row][col] == ' ' || board[row][col] == player) {
-                if (board[row][col] == ' ' && 
-                    ((row + 3 < rows && board[row + 1][col] == player && board[row + 2][col] == player && board[row + 3][col] == player) || 
-                     (row + 2 < rows && board[row + 1][col] == player && board[row + 2][col] == player) || 
-                     (row + 1 < rows && board[row + 1][col] == player))) {
-                    ++count;
+            int emptyCount = 0;
+            int playerCount = 0;
+
+            for (int i = 0; i < 4; ++i) {
+                if (board[row + i][col] == player) {
+                    playerCount++;
+                } else if (board[row + i][col] == ' ') {
+                    emptyCount++;
                 }
+            }
+
+            if (playerCount + emptyCount >= 4 && playerCount > 0) {
+                count++;
             }
         }
     }
 
-    // Verificar diagonais
     for (int row = 0; row <= rows - 4; ++row) {
         for (int col = 0; col <= cols - 4; ++col) {
-            if (board[row][col] == ' ' || board[row][col] == player) {
-                if (board[row][col] == ' ' && 
-                    ((row + 3 < rows && col + 3 < cols && board[row + 1][col + 1] == player && board[row + 2][col + 2] == player && board[row + 3][col + 3] == player) || 
-                     (row + 2 < rows && col + 2 < cols && board[row + 1][col + 1] == player && board[row + 2][col + 2] == player) || 
-                     (row + 1 < rows && col + 1 < cols && board[row + 1][col + 1] == player))) {
-                    ++count;
+            int emptyCount = 0;
+            int playerCount = 0;
+
+            for (int i = 0; i < 4; ++i) {
+                if (board[row + i][col + i] == player) {
+                    playerCount++;
+                } else if (board[row + i][col + i] == ' ') {
+                    emptyCount++;
                 }
+            }
+
+            if (playerCount + emptyCount >= 4 && playerCount > 0) {
+                count++;
             }
         }
     }
 
     for (int row = 3; row < rows; ++row) {
         for (int col = 0; col <= cols - 4; ++col) {
-            if (board[row][col] == ' ' || board[row][col] == player) {
-                if (board[row][col] == ' ' && 
-                    ((row - 3 >= 0 && col + 3 < cols && board[row - 1][col + 1] == player && board[row - 2][col + 2] == player && board[row - 3][col + 3] == player) || 
-                     (row - 2 >= 0 && col + 2 < cols && board[row - 1][col + 1] == player && board[row - 2][col + 2] == player) || 
-                     (row - 1 >= 0 && col + 1 < cols && board[row - 1][col + 1] == player))) {
-                    ++count;
+            int emptyCount = 0;
+            int playerCount = 0;
+
+            for (int i = 0; i < 4; ++i) {
+                if (board[row - i][col + i] == player) {
+                    playerCount++;
+                } else if (board[row - i][col + i] == ' ') {
+                    emptyCount++;
                 }
+            }
+
+            if (playerCount + emptyCount >= 4 && playerCount > 0) {
+                count++;
             }
         }
     }
