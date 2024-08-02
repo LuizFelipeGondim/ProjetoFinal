@@ -1,5 +1,6 @@
 #include <iostream>
-
+#include <string>
+#include <vector>
 
 int main(){
     //const GameBoard gameBoard;
@@ -69,3 +70,53 @@ int main(){
 
     return 0;
 }
+
+/*
+void readPlayersFromFile(const std::string filename, std::vector<Player>& players){
+
+    std::ifstream infile(filename);
+    if (!infile) {
+        std::cerr << "Erro leitura do arquivo: " << filename << std::endl;
+        return;
+    }
+
+    while (!infile.eof()) {
+        Player player;
+        player.readPlayers(infile);
+
+        if (infile) { 
+            players.push_back(player);
+        }
+    }
+
+    infile.close();
+}
+
+void writePlayersToFile(const std::string filename, const std::vector<Player>& players){
+
+    std::ofstream outfile(filename);
+    if (!outfile) {
+        std::cerr << "Erro leitura do arquivo: " << filename << std::endl;
+        return;
+    }
+
+    for (const auto& player : players) {
+        player.writePlayers(outfile);
+    }
+
+    outfile.close();
+}
+
+void removePlayer(const std::string nickName, std::vector<Player>& players){
+    auto it = std::remove_if(players.begin(), players.end(), [&nickName](const Player& player) {
+        return player.getNickName() == nickName;
+    });
+
+    if (it != players.end()) {
+        players.erase(it, players.end());
+        std::cout << nickName << " removido com sucesso!" << std::endl;
+    } else {
+        std::cout << nickName << " não foi encontrado." << std::endl;
+    }
+}
+*/
