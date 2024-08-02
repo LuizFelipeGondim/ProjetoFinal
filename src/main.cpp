@@ -22,18 +22,18 @@ bool isValidInput(const std::string& input, int min, int max) {
 int getBoardSizeChoice() {
     std::string choice;
     std::cout << "Escolha o tamanho do Tabuleiro:\n";
-    std::cout << "1. 6x6\n";
+    std::cout << "1. 5x6\n";
     std::cout << "2. 6x7\n";
-    std::cout << "3. 6x8\n";
+    std::cout << "3. 7x8\n";
     std::cout << "Digite o número da opção desejada: ";
     std::getline(std::cin, choice);
 
     while (!isValidInput(choice, 1, 3)) {
         std::cout << "ERRO: Entrada inválida. Digite um número de 1 a 3.\n";
         std::cout << "Escolha o tamanho do grid:\n";
-        std::cout << "1. 6x6\n";
+        std::cout << "1. 5x6\n";
         std::cout << "2. 6x7\n";
-        std::cout << "3. 6x8\n";
+        std::cout << "3. 7x8\n";
         std::cout << "Digite o número da opção desejada: ";
         std::getline(std::cin, choice);
     }
@@ -47,7 +47,7 @@ int main() {
 
     switch (choice) {
         case 1:
-            rows = 6;
+            rows = 5;
             cols = 6;
             break;
         case 2:
@@ -55,7 +55,7 @@ int main() {
             cols = 7;
             break;
         case 3:
-            rows = 6;
+            rows = 7;
             cols = 8;
             break;
         default:
