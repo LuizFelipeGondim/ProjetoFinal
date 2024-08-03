@@ -15,6 +15,7 @@ class Player {
   public:
     Player() = default;
     Player(std::string nickName, std::string name);
+
     ~Player();
 
     void showStatistics() const;

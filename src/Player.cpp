@@ -1,4 +1,4 @@
-#include "Player.hpp"
+#include "../include/Player.hpp"
 #include <iostream>
 #include <string>
 
@@ -14,8 +14,8 @@ Player::~Player(){}
 
 void Player::showStatistics() const{
   std::cout << _nickName << " " << _name << std::endl;
-  std::cout << "REVERSI - VITÓRIAS: "<< _victories.at("reversi") << " DERROTAS: " << _defeats.at("reversi") << std::endl;
-  std::cout << "LIG4 - VITÓRIAS: "<< _victories.at("connectFour") << " DERROTAS: " << _defeats.at("connectFour") << std::endl;
+  std::cout << "REVERSI - V: "<< _victories.at("reversi") << " D: " << _defeats.at("reversi") << std::endl;
+  std::cout << "LIG4    - V: "<< _victories.at("connectFour") << " D: " << _defeats.at("connectFour") << std::endl;
   std::cout << std::endl;
 }
 
