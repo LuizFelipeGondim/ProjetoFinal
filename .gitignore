@@ -33,3 +33,6 @@
 *.exe
 *.out
 *.app
+exec
+
+players.txt
