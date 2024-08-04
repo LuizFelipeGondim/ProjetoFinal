@@ -6,19 +6,17 @@
 
 class Game {
 protected:
-    std::vector<std::vector<char>> board;
-    int rows, cols;
+    std::vector<std::vector<std::string>> _board;
+    int _defaultRows; 
+    int _defaultCols;
 
 public:
     Game(int rows, int cols);
-    virtual ~Game();
+    virtual ~Game() = default;
 
-    virtual void printBoard() const;
-    virtual bool isValidMove(int col) const = 0;
-    virtual bool makeMove(int col, char player) = 0;
-    virtual bool checkWin(char player) const = 0;
-    virtual bool isBoardFull() const;
-    virtual void resetBoard();
+    virtual void printBoard(std::string currentPiece) const = 0;
+    virtual bool isBoardFull() const = 0;
+    virtual void match() = 0;
 };
 
-#endif // GAME_HPP
+#endif
