@@ -3,29 +3,30 @@
 #include <iostream>
 #include <string>
 #include <algorithm>
+#include <limits>
 
-GameBoard::GameBoard(){
+GameBoard::GameBoard() {
   readPlayersFromFile();
 }
 
-GameBoard::~GameBoard(){
+GameBoard::~GameBoard() {
   for(Player* player : _players)
     delete player;
 
   _players.clear();
 }
 
-bool GameBoard::searchPlayer(std::string nickName) const{
-  for(auto& player : _players)
+bool GameBoard::searchPlayer(std::string nickName) const {
+  for(Player* player : _players)
     if(player->getNickName() == nickName)
       return true;
   
   return false;
 }
 
-void GameBoard::listStatistics(std::string orderType) const{
+void GameBoard::listStatistics(std::string orderType) const {
 
-  if(_players.empty()){
+  if(_players.empty()) {
     std::cout << "Não há jogadores!" << std::endl;
     std::cout << std::endl;
     return;
@@ -33,7 +34,7 @@ void GameBoard::listStatistics(std::string orderType) const{
 
   std::vector<Player*> sortedPlayers = _players;
 
-  if(orderType == "A"){
+  if(orderType == "A") {
     std::sort(
       sortedPlayers.begin(), 
       sortedPlayers.end(), 
@@ -41,7 +42,7 @@ void GameBoard::listStatistics(std::string orderType) const{
           return a->getNickName() < b->getNickName();
       });
     
-  } else if (orderType == "N"){
+  } else if (orderType == "N") {
     std::sort(
       sortedPlayers.begin(), 
       sortedPlayers.end(), 
@@ -54,11 +55,11 @@ void GameBoard::listStatistics(std::string orderType) const{
     player->showStatistics();
 }
 
-void GameBoard::registerPlayer(std::string nickName, std::string name){
+void GameBoard::registerPlayer(std::string nickName, std::string name) {
   _players.push_back(new Player(nickName, name));
 }
 
-void GameBoard::removePlayer(std::string nickName){
+void GameBoard::removePlayer(std::string nickName) {
 
   for (auto it = _players.begin(); it != _players.end(); ) {
     if ((*it)->getNickName() == nickName) {
@@ -71,7 +72,61 @@ void GameBoard::removePlayer(std::string nickName){
   }
 }
 
-void GameBoard::readPlayersFromFile(){
+void GameBoard::startGame(
+  std::string game, 
+  std::string nickNamePlayer1, 
+  std::string nickNamePlayer2
+) {
+  Player* player1;
+  Player* player2;
+
+  for(Player* player : _players) {
+    if (player->getNickName() == nickNamePlayer1) {
+      player1 = player;
+      break;
+    }
+  }
+
+  for(Player* player : _players) {
+    if (player->getNickName() == nickNamePlayer2) {
+      player2 = player;
+      break;
+    }
+  }
+
+  if (game == "reversi") {
+
+  } else {
+    int choice;
+    int rows = 0, cols = 0;
+
+    while (true) {
+        std::cout << "Escolha o tamanho do Tabuleiro:\n";
+        std::cout << "1. 5x6\n";
+        std::cout << "2. 6x7\n";
+        std::cout << "3. 7x8\n";
+        std::cout << "Digite o número da opção desejada: ";
+
+        if (std::cin >> choice && choice >= 1 && choice <= 3) {
+            rows = 4 + choice; // 5, 6, 7
+            cols = 5 + choice; // 6, 7, 8
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Limpa o buffer de entrada
+            break;
+        } else {
+            std::cout << "ERRO: Entrada inválida. Digite um número de 1 a 3.\n";
+            std::cin.clear(); // Limpa o estado de erro
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        }
+    }
+
+    ConnectFour lig4(rows, cols);
+
+    lig4.match(player1, player2);
+  }
+
+}
+
+void GameBoard::readPlayersFromFile() {
 
 std::ifstream infile(FILENAME);
   if (!infile) {
@@ -97,7 +152,7 @@ std::ifstream infile(FILENAME);
   infile.close();
 }
 
-void GameBoard::writePlayersToFile(){
+void GameBoard::writePlayersToFile() {
 
   std::ofstream outfile(FILENAME);
   if (!outfile) {

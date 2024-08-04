@@ -2,11 +2,12 @@
 #define CONNECTFOUR_HPP
 
 #include "Game.hpp"
+#include "Player.hpp"
 #include <vector>
 #include <string>
 
 class ConnectFour : public Game {
-public:
+  public:
     ConnectFour(int rows, int cols);
 
     bool isValidMove(int col) const;
@@ -16,12 +17,12 @@ public:
     void printBoard(std::string currentPiece) const override;  // Atualizado para mostrar número de vitórias
     int countPossibleWins(std::string piece) const;  // Atualizado para aceitar jogador
 
-    void match() override;
+    void match(Player* player1, Player* player2) override;
 
-private:
+  private:
     bool checkHorizontal(std::string piece) const;
     bool checkVertical(std::string piece) const;
     bool checkDiagonal(std::string piece) const;
 };
 
-#endif // CONNECTFOUR_HPP
+#endif
