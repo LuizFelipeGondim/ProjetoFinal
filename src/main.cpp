@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <string>
+#include <algorithm>
 #include <vector>
 
 const std::string GameBoard::FILENAME = "players.txt";
@@ -47,8 +48,6 @@ int main(){
 
     } else if (option == "LJ"){
       std::string orderType;
-
-      std::cout << std::endl;
       std::cout << "Informe um método ordenação: [A|N]" << std::endl;
       std::cin >> orderType;
 
@@ -61,6 +60,49 @@ int main(){
       gameBoard.listStatistics(orderType);
 
     } else if (option == "EP"){
+      std::string game, nickNamePlayer1, nickNamePlayer2;
+      bool playerExists;
+
+      std::cout << "Informe o jogo: [Reversi|Lig4]" << std::endl;
+      std::cin >> game;
+
+      std::transform(game.begin(), game.end(), game.begin(),
+        [](unsigned char c){ return std::tolower(c); });
+
+      while(game != "reversi" && game != "lig4"){
+        std::cout << std::endl;
+        std::cout << "Informe um jogo válido: [Reversi|Lig4]" << std::endl;
+        std::cin >> game; 
+
+        std::transform(game.begin(), game.end(), game.begin(),
+        [](unsigned char c){ return std::tolower(c); });
+      }
+
+      std::cout << "Informe o apelido do primeiro jogador:" << std::endl;
+      std::cin >> nickNamePlayer1;
+      playerExists = gameBoard.searchPlayer(nickNamePlayer1);
+
+      while(!playerExists){
+        std::cout << std::endl;
+        std::cout << "Jogador inválido!" << std::endl;
+        std::cout << "Por favor, escolha novamente:" << std::endl;
+        std::cin >> nickNamePlayer1;
+        playerExists = gameBoard.searchPlayer(nickNamePlayer1);
+      }
+
+      std::cout << "Informe o apelido do segundo jogador:" << std::endl;
+      std::cin >> nickNamePlayer2;
+      playerExists = gameBoard.searchPlayer(nickNamePlayer2);
+
+      while(!playerExists || nickNamePlayer1 == nickNamePlayer2){
+        std::cout << std::endl;
+        std::cout << "Jogador inválido!" << std::endl;
+        std::cout << "Por favor, escolha novamente:" << std::endl;
+        std::cin >> nickNamePlayer2;
+        playerExists = gameBoard.searchPlayer(nickNamePlayer2);
+      }
+      std::cout << std::endl;
+      gameBoard.startGame(game, nickNamePlayer1, nickNamePlayer2);
 
     } else {
       std::cout << "Opção inválida!" << std::endl;
