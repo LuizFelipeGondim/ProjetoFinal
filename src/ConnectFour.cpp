@@ -2,236 +2,285 @@
 #include <iostream>
 #include <limits>
 
+/**
+ * @brief Construtor da classe ConnectFour.
+ * @param rows Número de linhas do tabuleiro.
+ * @param cols Número de colunas do tabuleiro.
+ */
 ConnectFour::ConnectFour(int rows, int cols) : _currentPiece("X"), Game(rows, cols) {}
 
+/**
+ * @brief Verifica se a jogada é válida.
+ * @param col A coluna onde a jogada será feita.
+ * @return Verdadeiro se a jogada é válida, falso caso contrário.
+ */
 bool ConnectFour::isValidMove(int col) const {
-  if (col < 1 || col > _defaultCols) return false;
-  return _board[0][col - 1] == " ";
+    if (col < 1 || col > _defaultCols) return false;
+    return _board[0][col - 1] == " ";
 }
 
+/**
+ * @brief Faz uma jogada, colocando uma peça na coluna especificada.
+ * @param col A coluna onde a peça será colocada.
+ * @return Verdadeiro se a jogada for bem-sucedida, falso caso contrário.
+ */
 bool ConnectFour::makeMove(int col) {
-  if (!isValidMove(col)) return false;
-  col -= 1; // Ajustar para índice de base 0
-  for (int row = _defaultRows - 1; row >= 0; --row) {
-    if (_board[row][col] == " ") {
-      _board[row][col] = _currentPiece;
-      return true;
+    if (!isValidMove(col)) return false;
+    col -= 1; // Ajustar para índice de base 0
+    for (int row = _defaultRows - 1; row >= 0; --row) {
+        if (_board[row][col] == " ") {
+            _board[row][col] = _currentPiece;
+            return true;
+        }
     }
-  }
-  return false;
+    return false;
 }
 
+/**
+ * @brief Verifica se o tabuleiro está cheio.
+ * @return Verdadeiro se o tabuleiro estiver cheio, falso caso contrário.
+ */
 bool ConnectFour::isBoardFull() const {
-  for (const auto& row : _board) {
-    for (std::string cell : row) {
-      if (cell == " ") return false;
+    for (const auto& row : _board) {
+        for (std::string cell : row) {
+            if (cell == " ") return false;
+        }
     }
-  }
-  return true;
+    return true;
 }
 
+/**
+ * @brief Verifica se o jogador atual ganhou.
+ * @return Verdadeiro se o jogador ganhou, falso caso contrário.
+ */
 bool ConnectFour::checkWin() const {
-  return checkHorizontal() || checkVertical() || checkDiagonal();
+    return checkHorizontal() || checkVertical() || checkDiagonal();
 }
 
+/**
+ * @brief Verifica se há uma linha horizontal de quatro peças do jogador atual.
+ * @return Verdadeiro se houver uma linha horizontal de quatro peças, falso caso contrário.
+ */
 bool ConnectFour::checkHorizontal() const {
-  for (int row = 0; row < _defaultRows; ++row) {
-    for (int col = 0; col <= _defaultCols - 4; ++col) {
-      if (_board[row][col] == _currentPiece && _board[row][col + 1] == _currentPiece &&
-        _board[row][col + 2] == _currentPiece && _board[row][col + 3] == _currentPiece) {
-        return true;
-      }
+    for (int row = 0; row < _defaultRows; ++row) {
+        for (int col = 0; col <= _defaultCols - 4; ++col) {
+            if (_board[row][col] == _currentPiece && _board[row][col + 1] == _currentPiece &&
+                _board[row][col + 2] == _currentPiece && _board[row][col + 3] == _currentPiece) {
+                return true;
+            }
+        }
     }
-  }
-  return false;
+    return false;
 }
 
+/**
+ * @brief Verifica se há uma linha vertical de quatro peças do jogador atual.
+ * @return Verdadeiro se houver uma linha vertical de quatro peças, falso caso contrário.
+ */
 bool ConnectFour::checkVertical() const {
-  for (int col = 0; col < _defaultCols; ++col) {
-    for (int row = 0; row <= _defaultRows - 4; ++row) {
-      if (_board[row][col] == _currentPiece && _board[row + 1][col] == _currentPiece &&
-        _board[row + 2][col] == _currentPiece && _board[row + 3][col] == _currentPiece) {
-        return true;
-      }
+    for (int col = 0; col < _defaultCols; ++col) {
+        for (int row = 0; row <= _defaultRows - 4; ++row) {
+            if (_board[row][col] == _currentPiece && _board[row + 1][col] == _currentPiece &&
+                _board[row + 2][col] == _currentPiece && _board[row + 3][col] == _currentPiece) {
+                return true;
+            }
+        }
     }
-  }
-  return false;
+    return false;
 }
 
+/**
+ * @brief Verifica se há uma linha diagonal de quatro peças do jogador atual.
+ * @return Verdadeiro se houver uma linha diagonal de quatro peças, falso caso contrário.
+ */
 bool ConnectFour::checkDiagonal() const {
-  for (int row = 0; row <= _defaultRows - 4; ++row) {
-    for (int col = 0; col <= _defaultCols - 4; ++col) {
-      if (_board[row][col] == _currentPiece && _board[row + 1][col + 1] == _currentPiece &&
-        _board[row + 2][col + 2] == _currentPiece && _board[row + 3][col + 3] == _currentPiece) {
-        return true;
-      }
+    for (int row = 0; row <= _defaultRows - 4; ++row) {
+        for (int col = 0; col <= _defaultCols - 4; ++col) {
+            if (_board[row][col] == _currentPiece && _board[row + 1][col + 1] == _currentPiece &&
+                _board[row + 2][col + 2] == _currentPiece && _board[row + 3][col + 3] == _currentPiece) {
+                return true;
+            }
+        }
     }
-  }
-  for (int row = 3; row < _defaultRows; ++row) {
-    for (int col = 0; col <= _defaultCols - 4; ++col) {
-      if (_board[row][col] == _currentPiece && _board[row - 1][col + 1] == _currentPiece &&
-        _board[row - 2][col + 2] == _currentPiece && _board[row - 3][col + 3] == _currentPiece) {
-        return true;
-      }
+    for (int row = 3; row < _defaultRows; ++row) {
+        for (int col = 0; col <= _defaultCols - 4; ++col) {
+            if (_board[row][col] == _currentPiece && _board[row - 1][col + 1] == _currentPiece &&
+                _board[row - 2][col + 2] == _currentPiece && _board[row - 3][col + 3] == _currentPiece) {
+                return true;
+            }
+        }
     }
-  }
-  return false;
+    return false;
 }
 
+/**
+ * @brief Imprime o estado atual do tabuleiro.
+ */
 void ConnectFour::printBoard() const {
-  std::cout << "Possíveis formas de ganhar para " << _currentPiece << ": " << countPossibleWins() << '\n';
+    std::cout << "Possíveis formas de ganhar para " << _currentPiece << ": " << countPossibleWins() << '\n';
 
-  std::cout << "  ";
-  for (int col = 1; col <= _defaultCols; ++col) {
-    if(col > 1){
-      std::cout << " " << col << "  ";
-    }
-    else{
-      std::cout << col << "  ";
-    }
-    
-  }
-  std::cout << "\n";
-
-  for (const auto& row : _board) {
-    std::cout << "| ";
-    for (std::string cell : row) {
-      std::cout << cell << " | ";
+    std::cout << "  ";
+    for (int col = 1; col <= _defaultCols; ++col) {
+        if (col > 1) {
+            std::cout << " " << col << "  ";
+        } else {
+            std::cout << col << "  ";
+        }
     }
     std::cout << "\n";
-  }
-  std::cout << std::string(_defaultCols * 4 + 2, '-') << '\n';
+
+    for (const auto& row : _board) {
+        std::cout << "| ";
+        for (std::string cell : row) {
+            std::cout << cell << " | ";
+        }
+        std::cout << "\n";
+    }
+    std::cout << std::string(_defaultCols * 4 + 2, '-') << '\n';
 }
 
+/**
+ * @brief Conta o número de possíveis formas de ganhar para o jogador atual.
+ * @return Número de possíveis formas de ganhar.
+ */
 int ConnectFour::countPossibleWins() const {
-  int count = 0;
+    int count = 0;
 
-  for (int row = 0; row < _defaultRows; ++row) {
-    for (int col = 0; col <= _defaultCols - 4; ++col) {
-      int emptyCount = 0;
-      int pieceCount = 0;
+    // Horizontal
+    for (int row = 0; row < _defaultRows; ++row) {
+        for (int col = 0; col <= _defaultCols - 4; ++col) {
+            int emptyCount = 0;
+            int pieceCount = 0;
 
-      for (int i = 0; i < 4; ++i) {
-        if (_board[row][col + i] == _currentPiece) {
-          pieceCount++;
-        } else if (_board[row][col + i] == " ") {
-          emptyCount++;
+            for (int i = 0; i < 4; ++i) {
+                if (_board[row][col + i] == _currentPiece) {
+                    pieceCount++;
+                } else if (_board[row][col + i] == " ") {
+                    emptyCount++;
+                }
+            }
+
+            if (pieceCount + emptyCount >= 4 && pieceCount > 0) {
+                count++;
+            }
         }
-      }
-
-      if (pieceCount + emptyCount >= 4 && pieceCount > 0) {
-        count++;
-      }
     }
-  }
 
-  for (int col = 0; col < _defaultCols; ++col) {
+    // Vertical
+    for (int col = 0; col < _defaultCols; ++col) {
+        for (int row = 0; row <= _defaultRows - 4; ++row) {
+            int emptyCount = 0;
+            int pieceCount = 0;
+
+            for (int i = 0; i < 4; ++i) {
+                if (_board[row + i][col] == _currentPiece) {
+                    pieceCount++;
+                } else if (_board[row + i][col] == " ") {
+                    emptyCount++;
+                }
+            }
+
+            if (pieceCount + emptyCount >= 4 && pieceCount > 0) {
+                count++;
+            }
+        }
+    }
+
+    // Diagonal
     for (int row = 0; row <= _defaultRows - 4; ++row) {
-      int emptyCount = 0;
-      int pieceCount = 0;
+        for (int col = 0; col <= _defaultCols - 4; ++col) {
+            int emptyCount = 0;
+            int pieceCount = 0;
 
-      for (int i = 0; i < 4; ++i) {
-        if (_board[row + i][col] == _currentPiece) {
-          pieceCount++;
-        } else if (_board[row + i][col] == " ") {
-          emptyCount++;
+            for (int i = 0; i < 4; ++i) {
+                if (_board[row + i][col + i] == _currentPiece) {
+                    pieceCount++;
+                } else if (_board[row + i][col + i] == " ") {
+                    emptyCount++;
+                }
+            }
+
+            if (pieceCount + emptyCount >= 4 && pieceCount > 0) {
+                count++;
+            }
         }
-      }
-
-      if (pieceCount + emptyCount >= 4 && pieceCount > 0) {
-        count++;
-      }
     }
-  }
 
-  for (int row = 0; row <= _defaultRows - 4; ++row) {
-    for (int col = 0; col <= _defaultCols - 4; ++col) {
-      int emptyCount = 0;
-      int pieceCount = 0;
+    // Diagonal inversa
+    for (int row = 3; row < _defaultRows; ++row) {
+        for (int col = 0; col <= _defaultCols - 4; ++col) {
+            int emptyCount = 0;
+            int pieceCount = 0;
 
-      for (int i = 0; i < 4; ++i) {
-        if (_board[row + i][col + i] == _currentPiece) {
-          pieceCount++;
-        } else if (_board[row + i][col + i] == " ") {
-          emptyCount++;
+            for (int i = 0; i < 4; ++i) {
+                if (_board[row - i][col + i] == _currentPiece) {
+                    pieceCount++;
+                } else if (_board[row - i][col + i] == " ") {
+                    emptyCount++;
+                }
+            }
+
+            if (pieceCount + emptyCount >= 4 && pieceCount > 0) {
+                count++;
+            }
         }
-      }
-
-      if (pieceCount + emptyCount >= 4 && pieceCount > 0) {
-        count++;
-      }
     }
-  }
 
-  for (int row = 3; row < _defaultRows; ++row) {
-    for (int col = 0; col <= _defaultCols - 4; ++col) {
-      int emptyCount = 0;
-      int pieceCount = 0;
-
-      for (int i = 0; i < 4; ++i) {
-        if (_board[row - i][col + i] == _currentPiece) {
-          pieceCount++;
-        } else if (_board[row - i][col + i] == " ") {
-          emptyCount++;
-        }
-      }
-
-      if (pieceCount + emptyCount >= 4 && pieceCount > 0) {
-        count++;
-      }
-    }
-  }
-
-  return count;
+    return count;
 }
 
+/**
+ * @brief Executa uma partida entre dois jogadores.
+ * @param player1 Ponteiro para o primeiro jogador.
+ * @param player2 Ponteiro para o segundo jogador.
+ */
 void ConnectFour::match(Player* player1, Player* player2) {
 
-  std::string nickNamePlayer1 = player1->getNickName();
-  std::string nickNamePlayer2 = player2->getNickName();
+    std::string nickNamePlayer1 = player1->getNickName();
+    std::string nickNamePlayer2 = player2->getNickName();
 
-  std::string currentPlayer = nickNamePlayer1;
+    std::string currentPlayer = nickNamePlayer1;
 
-  while (true) {
-    printBoard();
+    while (true) {
+        printBoard();
 
-    std::cout << "Turno de " << currentPlayer << " (" << _currentPiece << "): ";
-    int input;
-    if (!(std::cin >> input) || input < 1 || input > _defaultCols) {
-      std::cout << "ERRO: Jogada inválida. Digite um número entre 1 e " << _defaultCols << ".\n";
-      std::cin.clear(); // Limpa o estado de erro
-      std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Limpa o buffer de entrada
-      continue;
+        std::cout << "Turno de " << currentPlayer << " (" << _currentPiece << "): ";
+        int input;
+        if (!(std::cin >> input) || input < 1 || input > _defaultCols) {
+            std::cout << "ERRO: Jogada inválida. Digite um número entre 1 e " << _defaultCols << ".\n";
+            std::cin.clear(); // Limpa o estado de erro
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Limpa o buffer de entrada
+            continue;
+        }
+
+        if (!makeMove(input)) {
+            std::cout << "ERRO: Coluna cheia. Tente novamente.\n";
+            continue;
+        }
+
+        if (checkWin()) {
+            printBoard();
+            std::cout << "Parabéns " << currentPlayer << "! Você venceu!\n";
+
+            if (currentPlayer == nickNamePlayer1) {
+                player1->setVictories("connectFour");
+                player2->setDefeats("connectFour");
+            } else {
+                player1->setDefeats("connectFour");
+                player2->setVictories("connectFour");
+            }
+
+            std::cout << std::endl;
+            break;
+        }
+
+        if (isBoardFull()) {
+            printBoard();
+            std::cout << "O jogo terminou em empate!\n";
+            break;
+        }
+
+        currentPlayer = (currentPlayer == nickNamePlayer1) ? nickNamePlayer2 : nickNamePlayer1;
+        _currentPiece = (_currentPiece == "X") ? "O" : "X";
     }
-
-    if (!makeMove(input)) {
-      std::cout << "ERRO: Coluna cheia. Tente novamente.\n";
-      continue;
-    }
-
-    if (checkWin()) {
-      printBoard();
-      std::cout << "Parabéns " << currentPlayer << "! Você venceu!\n";
-      
-      if (currentPlayer == nickNamePlayer1) {
-        player1->setVictories("connectFour");
-        player2->setDefeats("connectFour");
-      } else {
-        player1->setDefeats("connectFour");
-        player2->setVictories("connectFour");
-      }
-
-      std::cout << std::endl;
-      break;
-    }
-
-    if (isBoardFull()) {
-      printBoard();
-      std::cout << "O jogo terminou em empate!\n";
-      break;
-    }
-
-    currentPlayer = (currentPlayer == nickNamePlayer1) ? nickNamePlayer2 : nickNamePlayer1;
-    _currentPiece = (_currentPiece == "X") ? "O" : "X";
-  }
 }
