@@ -34,5 +34,6 @@
 *.out
 *.app
 exec
+bin/game
 
 players.txt
