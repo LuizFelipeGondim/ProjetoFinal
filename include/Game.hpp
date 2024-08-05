@@ -15,7 +15,7 @@ class Game {
     Game(int rows, int cols);
     virtual ~Game() = default;
 
-    virtual void printBoard(std::string currentPiece) const = 0;
+    virtual void printBoard() const = 0;
     virtual bool isBoardFull() const = 0;
     virtual void match(Player* player1, Player* player2) = 0;
 };
