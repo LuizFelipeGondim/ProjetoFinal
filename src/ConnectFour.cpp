@@ -187,10 +187,10 @@ int ConnectFour::countPossibleWins() const {
 
 void ConnectFour::match(Player* player1, Player* player2) {
 
-  std::string nickNamePLayer1 = player1->getNickName();
-  std::string nickNamePLayer2 = player2->getNickName();
+  std::string nickNamePlayer1 = player1->getNickName();
+  std::string nickNamePlayer2 = player2->getNickName();
 
-  std::string currentPlayer = nickNamePLayer1;
+  std::string currentPlayer = nickNamePlayer1;
 
   while (true) {
     printBoard();
@@ -213,7 +213,7 @@ void ConnectFour::match(Player* player1, Player* player2) {
       printBoard();
       std::cout << "Parabéns " << currentPlayer << "! Você venceu!\n";
       
-      if (currentPlayer == nickNamePLayer1) {
+      if (currentPlayer == nickNamePlayer1) {
         player1->setVictories("connectFour");
         player2->setDefeats("connectFour");
       } else {
@@ -229,7 +229,7 @@ void ConnectFour::match(Player* player1, Player* player2) {
       break;
     }
 
-    currentPlayer = (currentPlayer == nickNamePLayer1) ? nickNamePLayer2 : nickNamePLayer1;
+    currentPlayer = (currentPlayer == nickNamePlayer1) ? nickNamePlayer2 : nickNamePlayer1;
     _currentPiece = (_currentPiece == "X") ? "O" : "X";
   }
 }

@@ -23,7 +23,7 @@ class Reversi : public Game{
 
         bool isBoardFull() const override;
         void printBoard() const override;
-        void match() override;
+        void match(Player* player1, Player* player2) override;
 };
 
 #endif

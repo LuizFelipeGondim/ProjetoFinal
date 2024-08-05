@@ -1,4 +1,5 @@
-#include "../include/GameBoard.hpp"
+#include "GameBoard.hpp"
+#include "Reversi.hpp"
 
 #include <iostream>
 #include <string>
@@ -95,8 +96,12 @@ void GameBoard::startGame(
   }
 
   if (game == "reversi") {
+    Reversi reversi(8, 8);
+
+    reversi.match(player1, player2);
 
   } else {
+
     int choice;
     int rows = 0, cols = 0;
 
@@ -110,11 +115,10 @@ void GameBoard::startGame(
         if (std::cin >> choice && choice >= 1 && choice <= 3) {
             rows = 4 + choice; // 5, 6, 7
             cols = 5 + choice; // 6, 7, 8
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Limpa o buffer de entrada
-            break;
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
         } else {
             std::cout << "ERRO: Entrada inválida. Digite um número de 1 a 3.\n";
-            std::cin.clear(); // Limpa o estado de erro
+            std::cin.clear(); 
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         }
     }
