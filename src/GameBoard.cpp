@@ -54,6 +54,8 @@ void GameBoard::listStatistics(std::string orderType) const {
 
   for(Player* player : sortedPlayers)
     player->showStatistics();
+
+  std::cout << std::endl;
 }
 
 void GameBoard::registerPlayer(std::string nickName, std::string name) {
@@ -115,7 +117,8 @@ void GameBoard::startGame(
         if (std::cin >> choice && choice >= 1 && choice <= 3) {
             rows = 4 + choice; // 5, 6, 7
             cols = 5 + choice; // 6, 7, 8
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); 
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            break; 
         } else {
             std::cout << "ERRO: Entrada inválida. Digite um número de 1 a 3.\n";
             std::cin.clear(); 
@@ -125,6 +128,7 @@ void GameBoard::startGame(
 
     ConnectFour lig4(rows, cols);
 
+    std::cout << std::endl;
     lig4.match(player1, player2);
   }
 

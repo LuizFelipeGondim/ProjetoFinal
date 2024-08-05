@@ -13,10 +13,10 @@ Player::Player(std::string nickName, std::string name) :
 Player::~Player(){}
 
 void Player::showStatistics() const{
+  std::cout << std::endl;
   std::cout << _nickName << " " << _name << std::endl;
   std::cout << "REVERSI - V: "<< _victories.at("reversi") << " D: " << _defeats.at("reversi") << std::endl;
   std::cout << "LIG4    - V: "<< _victories.at("connectFour") << " D: " << _defeats.at("connectFour") << std::endl;
-  std::cout << std::endl;
 }
 
 void Player::readPlayers(std::ifstream& in){

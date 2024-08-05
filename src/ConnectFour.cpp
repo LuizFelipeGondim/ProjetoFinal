@@ -220,6 +220,8 @@ void ConnectFour::match(Player* player1, Player* player2) {
         player1->setDefeats("connectFour");
         player2->setVictories("connectFour");
       }
+
+      std::cout << std::endl;
       break;
     }
 

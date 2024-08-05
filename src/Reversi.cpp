@@ -444,7 +444,7 @@ void Reversi::match(Player* player1, Player* player2) {
   counter();
 
   while(1) {
-    std::cout << "Vez do " << currentPlayer << " jogar:" << std::endl << std::endl;
+    std::cout << "Vez de " << currentPlayer << " jogar(" << _turn << "):" << std::endl << std::endl;
     std::cin >> row;
 
     if(std::cin.fail()) {
@@ -455,7 +455,7 @@ void Reversi::match(Player* player1, Player* player2) {
     }
 
     if(row == -1) {
-      std::cout << currentPlayer << " desistiu, vitória do " << outerPlayer << "." << std::endl;
+      std::cout << currentPlayer << " desistiu, vitória de " << outerPlayer << "." << std::endl;
 
       if (outerPlayer == player1->getNickName()) {
         player1->setVictories("reversi");
@@ -464,7 +464,7 @@ void Reversi::match(Player* player1, Player* player2) {
         player1->setDefeats("reversi");
         player2->setVictories("reversi");
       }
-
+      std::cout << std::endl;
       break;
     }
 
@@ -516,7 +516,7 @@ void Reversi::match(Player* player1, Player* player2) {
     outerPlayer = aux;
 
     if(!isBoardFull()) {
-      std::cout << std::endl << "Jogador " << outerPlayer << " GANHOU !!" << std::endl;
+      std::cout << std::endl << "Jogador(a) " << outerPlayer << " GANHOU !!" << std::endl;
 
       if (outerPlayer == player1->getNickName()) {
         player1->setVictories("reversi");
@@ -525,7 +525,7 @@ void Reversi::match(Player* player1, Player* player2) {
         player1->setDefeats("reversi");
         player2->setVictories("reversi");
       }
-
+      std::cout << std::endl;
       break;
     }
       
@@ -534,7 +534,7 @@ void Reversi::match(Player* player1, Player* player2) {
     }
       
     if(!isAnyPossiblePlay()) {
-      std::cout << std::endl << "Nao há jogadas possíveis para o jogador " << currentPlayer << std::endl;
+      std::cout << std::endl << "Nao há jogadas possíveis para o(a) jogador(a) " << currentPlayer << std::endl;
       std::string aux = _turn;
       _turn = _watching;
       _watching = aux;
