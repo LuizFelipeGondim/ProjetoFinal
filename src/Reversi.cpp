@@ -1,12 +1,45 @@
 #include "Game.hpp"
 #include "Reversi.hpp"
 #include <iostream>
+#include <limits>
 #include <string>
-#include <cstdlib>
 
-using namespace std;
+Reversi::Reversi(int rows, int cols) : Game(rows+1, 2*cols+2){
+    
+    for(int i = 0; i < _defaultCols; i++){
+        if(i == 0 || i % 2 == 1){
+            _board[0][i] = " ";  
+        }else{
+            _board[0][i] = std::to_string(i/2);
+        }
+    }
 
-Reversi::Reversi(int rows, int cols) : Game(rows, cols){}
+    for(int i = 1; i < _defaultRows; i++){
+        for(int j = 0; j < _defaultCols; j++){
+            if(j == 0){
+                _board[i][j] = std::to_string(i);
+            }else if(j % 2 == 1){
+                _board[i][j] = "|";    
+            }else{
+                _board[i][j] = " ";
+            }  
+        }  
+    }
+
+    _board[(_defaultRows-1)/2][(_defaultCols-2)/2] = "X";
+    _board[(_defaultRows-1)/2 + 1][(_defaultCols-2)/2] = "O";
+    _board[(_defaultRows-1)/2][(_defaultCols + 2)/2] = "O";
+    _board[(_defaultRows-1)/2 + 1][(_defaultCols + 2)/2] = "X";
+}
+
+void Reversi::printBoard() const{
+    for(int i = 0; i < _defaultRows; ++i) {
+        for(int j = 0; j < _defaultCols; ++j) {
+            std::cout << _board[i][j] << " ";
+        }
+        std::cout << std::endl;
+    }
+}
 
 bool Reversi::thereIsNearby(int rows, int cols) {
     int maxRows = _defaultRows;
@@ -31,7 +64,7 @@ bool Reversi::thereIsNearby(int rows, int cols) {
     return false;
 }
 
-bool Reversi::thereIsConnection(int rows,int cols){
+bool Reversi::thereIsConnection(int rows, int cols){
     bool playable = false;
     if(!(rows == _defaultRows - 1)){
         if(_board[rows+1][2*cols] == _watching){            //Embaixo
@@ -334,14 +367,14 @@ void Reversi::counter(){
     }
     _xCounter = auxXCounter;
     _oCounter = auxOCounter;
-    cout << endl;
-    cout << "-------------------------------------" << endl;
-    cout << "|      X = " << _xCounter;         //|  X = 12  |  O = 23  |
-    cout << "      |      O = " << _oCounter << "      |" << endl;
-    cout << "-------------------------------------" << endl;
+    std::cout << std::endl;
+    std::cout << "-------------------------------------" << std::endl;
+    std::cout << "|      X = " << _xCounter;         //|  X = 12  |  O = 23  |
+    std::cout << "      |      O = " << _oCounter << "      |" << std::endl;
+    std::cout << "-------------------------------------" << std::endl;
 }
 
-bool Reversi::piecesLeft(){
+bool Reversi::isBoardFull() const{
     int piece;
     if(_turn == "X"){
        piece = _xCounter;
@@ -391,63 +424,93 @@ bool Reversi::gameOver(){
         }
     }
     if(x > o){
-        cout << "FIM DO JOGO" << endl << "X GANHOU!!" << endl;
+        std::cout << "FIM DO JOGO" << std::endl << "X GANHOU!!" << std::endl;
     }
-    else if(x < 0){
-        cout << "FIM DO JOGO" << endl << "O GANHOU!!" << endl;
+    else if(x < o){
+        std::cout << "FIM DO JOGO" << std::endl << "O GANHOU!!" << std::endl;
     }
     else{
-        cout << "FIM DO JOGO" << endl << "EMPATE!!" << endl;
+        std::cout << "FIM DO JOGO" << std::endl << "EMPATE!!" << std::endl;
     }
     return true;
 }
 
-void Reversi::match(){
-    int rows;
-    int cols;
-    while(1){
-        cout << "Vez do " << _turn << " jogar:" << endl << endl;
-        cin >> rows;
-        if(rows == -1){
-            cout << _turn << " Desistiu, vitória do " << _watching << "." << endl; 
+void Reversi::match() {
+    int row, col;
+
+    printBoard();
+    counter();
+
+    while(1) {
+        std::cout << "Vez do " << _turn << " jogar:" << std::endl << std::endl;
+        std::cin >> row;
+
+        if(std::cin.fail()) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "ERRO: Entrada inválida." << std::endl;
+            continue;
+        }
+
+        if(row == -1){
+            std::cout << _turn << " Desistiu, vitória do " << _watching << "." << std::endl; 
             break;
         }
-        cin >> cols;
-        if(_board[rows][2*cols] != " "){
-            cout << "ERRO: jogada inválida" << endl;   //jogar em lugar ocupado
+        std::cin >> col;
+
+        if(std::cin.fail()) {
+            std::cin.clear();
+            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+            std::cout << "ERRO: Entrada inválida." << std::endl;
+            continue;
+        }
+
+        if(
+            row < 1 || 
+            row > _defaultRows-1 || 
+            col < 1 || 
+            col > (_defaultCols-2)/2
+        ) {
+            std::cout << "ERRO: jogada inválida" << std::endl;   //jogar em lugar ocupado
+            continue;
+        }
+
+        if(_board[row][2*col] != " ") {
+            std::cout << "ERRO: jogada inválida" << std::endl;   //jogar em lugar ocupado
             continue;
         }
         
-        if(!thereIsNearby(rows,cols)){
-            cout << "ERRO: jogada inválida" << endl;   //nao tem peça oposta perto
+        if(!thereIsNearby(row, col)) {
+            std::cout << "ERRO: jogada inválida" << std::endl;   //nao tem peça oposta perto
             continue;
         }
         
-        if(!thereIsConnection(rows, cols)){
-            cout << "ERRO: jogada inválida" << endl;   //nao tem conexão com outro da mesma peça
+        if(!thereIsConnection(row, col)) {
+            std::cout << "ERRO: jogada inválida" << std::endl;   //nao tem conexão com outro da mesma peça
             continue;
         }
         
-        isPlaying(rows, cols);
+        isPlaying(row, col);
         
         printBoard();
         counter();
-        string _aux = _turn;
+
+        std::string _aux = _turn;
         _turn = _watching;
         _watching = _aux;
 
-        if(!piecesLeft()){
-            cout << endl << "Jogador " << _watching << " GANHOU !!" << endl;
+        if(!isBoardFull()) {
+            std::cout << std::endl << "Jogador " << _watching << " GANHOU !!" << std::endl;
             break;
         }
         
-        if(gameOver()){       
+        if(gameOver()) {       
             break;
         }
         
-        if(!isAnyPossiblePlay()){
-            cout << endl << "Nao tem jogada possível para o jogador " << _turn << endl;
-            string _aux = _turn;
+        if(!isAnyPossiblePlay()) {
+            std::cout << std::endl << "Nao há jogadas possíveis para o jogador " << _turn << std::endl;
+            std::string _aux = _turn;
             _turn = _watching;
             _watching = _aux;
         }

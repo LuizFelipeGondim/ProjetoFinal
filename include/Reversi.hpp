@@ -4,12 +4,11 @@
 #include <vector>
 #include <string>
 #include "Game.hpp"
-using namespace std;
 
 class Reversi : public Game{
     private:
-        string _turn = "X";
-        string _watching = "O";
+        std::string _turn = "X";
+        std::string _watching = "O";
         int _xCounter = 2;
         int _oCounter = 2;
 
@@ -19,9 +18,11 @@ class Reversi : public Game{
         bool thereIsConnection(int rows,int cols);
         void counter();
         void isPlaying(int rows,int cols);
-        bool piecesLeft();
         bool isAnyPossiblePlay();
         bool gameOver();
+
+        bool isBoardFull() const override;
+        void printBoard() const override;
         void match() override;
 };
 
