@@ -117,6 +117,7 @@ bool ConnectFour::checkDiagonal() const {
  * @brief Imprime o estado atual do tabuleiro.
  */
 void ConnectFour::printBoard() const {
+    std::cout << std::endl;
     std::cout << "Possíveis formas de ganhar para " << _currentPiece << ": " << countPossibleWins() << '\n';
 
     std::cout << "  ";

@@ -14,3 +14,24 @@
 Game::Game(int rows, int cols) : _defaultRows(rows), _defaultCols(cols) {
     _board.resize(_defaultRows, std::vector<std::string>(_defaultCols, " "));
 }
+
+void Game::printBoard() const{
+    std::cout << "    ";
+  for (int col = 1; col <= _defaultCols; ++col) {
+    if (col > 1) {
+      std::cout << " " << col << "  ";
+    } else {
+      std::cout << col << "  ";
+    }
+  }
+  std::cout << std::endl;
+
+  for(int i = 0; i < _defaultRows; ++i) {
+    std::cout << i+1 << " | ";
+
+    for(int j = 0; j < _defaultCols; ++j) {
+      std::cout << _board[i][j] << " | ";
+    }
+    std::cout << std::endl;
+  }
+}

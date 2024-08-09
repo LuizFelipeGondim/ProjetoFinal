@@ -16,13 +16,11 @@ class Reversi : public Game{
         Reversi(int rows, int cols);
         bool thereIsNearby(int rows,int cols);
         bool thereIsConnection(int rows,int cols);
-        void counter();
-        void isPlaying(int rows,int cols);
+        void piecesCounter();
+        void makeMove(int rows, int cols); //Antigo isPlaying
         bool isAnyPossiblePlay();
-        bool gameOver();
 
         bool isBoardFull() const override;
-        void printBoard() const override;
         void match(Player* player1, Player* player2) override;
 };
 

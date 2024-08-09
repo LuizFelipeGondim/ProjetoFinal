@@ -30,7 +30,7 @@ class Game {
     /**
      * @brief Imprime o estado atual do tabuleiro.
      */
-    virtual void printBoard() const = 0;
+    virtual void printBoard() const;
 
     /**
      * @brief Verifica se o tabuleiro está cheio.
