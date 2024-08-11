@@ -52,38 +52,45 @@ bool Reversi::thereIsConnection(int rows, int cols) {
         }
       }
     }
-    if(_board[rows+1][cols+1] == _watching) {     //Embaixo-Direita
-             
-      for(int i = rows+1, j = cols+1; i < _defaultRows && j < _defaultCols ; i++, j++) {
-        if(_board[i][j] == _watching) {
-          continue;
-        }
-        else if(_board[i][j] == " ") {
-          break;
-        } 
-        else if(_board[i][j] == _turn) {
-          playable = true;
-          break;
+
+    if(cols != _defaultCols-1) {
+      if(_board[rows+1][cols+1] == _watching) {     //Embaixo-Direita
+              
+        for(int i = rows+1, j = cols+1; i < _defaultRows && j < _defaultCols ; i++, j++) {
+          if(_board[i][j] == _watching) {
+            continue;
+          }
+          else if(_board[i][j] == " ") {
+            break;
+          } 
+          else if(_board[i][j] == _turn) {
+            playable = true;
+            break;
+          }
         }
       }
     }
-    if(_board[rows+1][cols-1] == _watching) {     //Embaixo-Esquerda
-             
-      for(int i = rows+1, j = cols-1; i < _defaultRows && j >= 0 ; i++, j--) {
-        if(_board[i][j] == _watching) {
-          continue;
-        }
-        else if(_board[i][j] == " ") {
-          break;
-        } 
-        else if(_board[i][j] == _turn) {
-          playable = true;
-          break;
+
+    if (cols != 0) {
+      if(_board[rows+1][cols-1] == _watching) {     //Embaixo-Esquerda
+              
+        for(int i = rows+1, j = cols-1; i < _defaultRows && j >= 0 ; i++, j--) {
+          if(_board[i][j] == _watching) {
+            continue;
+          }
+          else if(_board[i][j] == " ") {
+            break;
+          } 
+          else if(_board[i][j] == _turn) {
+            playable = true;
+            break;
+          }
         }
       }
     }
   }
-  if(!(rows == 0)) {
+
+  if(rows != 0) {
     if(_board[rows-1][cols] == _watching) {       //Em cima
       for(int i = rows-1; i >= 0; i--) {
         if(_board[i][cols] == _watching) {
@@ -98,39 +105,44 @@ bool Reversi::thereIsConnection(int rows, int cols) {
         }
       }
     }
-
-    if(_board[rows-1][cols+1] == _watching) {     //Em cima-Direita
-                     
-      for(int i = rows-1, j = cols+1; i >= 0 && j < _defaultCols ; i--, j++) {
-        if(_board[i][j] == _watching) {
-          continue;
-        }
-        else if(_board[i][j] == " ") {
-          break;
-        } 
-        else if(_board[i][j] == _turn) {
-          playable = true;
-          break;
-        }
-      }   
+    if(cols != _defaultCols-1) {
+      if(_board[rows-1][cols+1] == _watching) {     //Em cima-Direita
+                      
+        for(int i = rows-1, j = cols+1; i >= 0 && j < _defaultCols ; i--, j++) {
+          if(_board[i][j] == _watching) {
+            continue;
+          }
+          else if(_board[i][j] == " ") {
+            break;
+          } 
+          else if(_board[i][j] == _turn) {
+            playable = true;
+            break;
+          }
+        }   
+      }
     }
-    if(_board[rows-1][cols-1] == _watching) {     //Em cima-Esquerda
-                     
-      for(int i = rows-1, j = cols-1 ; i >= 0 && j >= 0 ; i--, j--) {
-        if(_board[i][j] == _watching) {
-          continue;
-        }
-        else if(_board[i][j] == " ") {
-          break;
-        } 
-        else if(_board[i][j] == _turn) {
-          playable = true;
-          break;
+
+    if (cols != 0) {
+      if(_board[rows-1][cols-1] == _watching) {     //Em cima-Esquerda
+                      
+        for(int i = rows-1, j = cols-1 ; i >= 0 && j >= 0 ; i--, j--) {
+          if(_board[i][j] == _watching) {
+            continue;
+          }
+          else if(_board[i][j] == " ") {
+            break;
+          } 
+          else if(_board[i][j] == _turn) {
+            playable = true;
+            break;
+          }
         }
       }
     }
   }
-  if(!(cols == _defaultCols-1)) {
+
+  if(cols != _defaultCols-1) {
     if(_board[rows][cols+1] == _watching) {       //Direita
       for(int i = cols+1;i < _defaultCols; i++) {
         if(_board[rows][i] == _watching) {
@@ -146,7 +158,8 @@ bool Reversi::thereIsConnection(int rows, int cols) {
       }
     }
   }
-  if(!(cols == 0)) {
+
+  if(cols != 0) {
     if(_board[rows][cols-1] == _watching) {       //Esquerda
       for(int i = cols-1;i >= 0; i--) {
         if(_board[rows][i] == _watching) {
@@ -167,7 +180,8 @@ bool Reversi::thereIsConnection(int rows, int cols) {
 
 void Reversi::makeMove(int rows, int cols) {
   _board[rows][cols] = _turn;
-  if(!(rows == _defaultRows-1)){
+  if(rows != _defaultRows-1){
+
     if(_board[rows+1][cols] == _watching) {            //Embaixo
       for(int i = rows+1;i < _defaultRows; i++) {
         if(_board[i][cols] == _watching) {
@@ -185,43 +199,48 @@ void Reversi::makeMove(int rows, int cols) {
       }
     }
 
-    if(_board[rows+1][cols+1] == _watching) {     //Embaixo-Direita
-                     
-      for(int i = rows+1, j = cols+1; i < _defaultRows && j < _defaultCols ; i++, j++) {
-        if(_board[i][j] == _watching) {
-          continue;
-        }
-        else if(_board[i][j] == " ") {
-          break;
-        } 
-        else if(_board[i][j] == _turn) {
-          for(int k = rows+1,m = cols+1;k <= i; k++, m++) {
-            _board[k][m] = _turn;
+    if(cols != _defaultCols-1) { //Evitar acesso indevido de memÃ³ria
+      if(_board[rows+1][cols+1] == _watching) {     //Embaixo-Direita
+                      
+        for(int i = rows+1, j = cols+1; i < _defaultRows && j < _defaultCols ; i++, j++) {
+          if(_board[i][j] == _watching) {
+            continue;
           }
-          break;
+          else if(_board[i][j] == " ") {
+            break;
+          } 
+          else if(_board[i][j] == _turn) {
+            for(int k = rows+1,m = cols+1;k <= i; k++, m++) {
+              _board[k][m] = _turn;
+            }
+            break;
+          }
         }
       }
     }
 
-    if(_board[rows+1][cols-1] == _watching) {     //Embaixo-Esquerda
+    if(cols != 0) { 
+      if(_board[rows+1][cols-1] == _watching) {     //Embaixo-Esquerda
 
-      for(int i = rows+1, j = cols-1; i < _defaultRows && j >= 0 ; i++, j--) {
-        if(_board[i][j] == _watching) {
-          continue;
-        }
-        else if(_board[i][j] == " ") {
-          break;
-        }    
-        else if(_board[i][j] == _turn) {
-          for(int k = rows+1,m = cols-1;k <= i; k++, m--) {
-            _board[k][m] = _turn;
+        for(int i = rows+1, j = cols-1; i < _defaultRows && j >= 0 ; i++, j--) {
+          if(_board[i][j] == _watching) {
+            continue;
           }
-          break;
+          else if(_board[i][j] == " ") {
+            break;
+          }    
+          else if(_board[i][j] == _turn) {
+            for(int k = rows+1,m = cols-1;k <= i; k++, m--) {
+              _board[k][m] = _turn;
+            }
+            break;
+          }
         }
       }
     }
   }
-  if(!(rows == 0)) {
+
+  if(rows != 0) {
     if(_board[rows-1][cols] == _watching) {       //Em cima
       for(int i = rows-1;i >= 0; i--){
         if(_board[i][cols] == _watching) {
@@ -239,43 +258,50 @@ void Reversi::makeMove(int rows, int cols) {
       }
     }
 
-    if(_board[rows-1][cols+1] == _watching) {     //Em cima-Direita
-           
-      for(int i = rows-1, j = cols+1; i >= 0 && j < _defaultCols ; i--, j++) {
-        if(_board[i][j] == _watching) {
-          continue;
-        }
-        else if(_board[i][j] == " ") {
-          break;
-        } 
-        else if(_board[i][j] == _turn) {
-          for(int k = rows-1,m = cols+1; k >= i; k--, m++) {
-            _board[k][m] = _turn;
+    
+    if(cols != _defaultCols-1) { 
+      if(_board[rows-1][cols+1] == _watching) {     //Em cima-Direita
+            
+        for(int i = rows-1, j = cols+1; i >= 0 && j < _defaultCols ; i--, j++) {
+          if(_board[i][j] == _watching) {
+            continue;
           }
-          break;
+          else if(_board[i][j] == " ") {
+            break;
+          } 
+          else if(_board[i][j] == _turn) {
+            for(int k = rows-1,m = cols+1; k >= i; k--, m++) {
+              _board[k][m] = _turn;
+            }
+            break;
+          }
         }
       }
     }
 
-    if(_board[rows-1][cols-1] == _watching) {     //Em cima-Esquerda
-               
-      for(int i = rows-1, j = cols-1; i >= 0 && j >= 0 ; i--, j--) {
-        if(_board[i][j] == _watching) {
-          continue;
-        }
-        else if(_board[i][j] == " ") {
-          break;
-        } 
-        else if(_board[i][j] == _turn) {
-          for(int k = rows-1,m = cols-1; k >= i; k--, m--) {
-            _board[k][m] = _turn;
+    if (cols != 0) {
+      if(_board[rows-1][cols-1] == _watching) {     //Em cima-Esquerda
+                
+        for(int i = rows-1, j = cols-1; i >= 0 && j >= 0 ; i--, j--) {
+          if(_board[i][j] == _watching) {
+            continue;
           }
-          break;
+          else if(_board[i][j] == " ") {
+            break;
+          } 
+          else if(_board[i][j] == _turn) {
+            for(int k = rows-1,m = cols-1; k >= i; k--, m--) {
+              _board[k][m] = _turn;
+            }
+            break;
+          }
         }
       }
     }
   }
-  if(!(cols == _defaultCols-1)) {
+
+  if(cols != _defaultCols-1) {
+
     if(_board[rows][cols+1] == _watching) {                //Direita
       for(int i = cols+1;i < _defaultCols; i++) {
         if(_board[rows][i] == _watching) {
@@ -293,7 +319,8 @@ void Reversi::makeMove(int rows, int cols) {
       }
     }
   }
-  if(!(cols == 0)) {
+
+  if(cols != 0) {
     if(_board[rows][cols-1] == _watching) {       //Esquerda
       for(int i = cols-1;i >= 0; i--) {
         if(_board[rows][i] == _watching) {
@@ -333,6 +360,8 @@ void Reversi::piecesCounter() {
   std::cout << "|      X = " << _xCounter;         
   std::cout << "      |      O = " << _oCounter << "      |" << std::endl;
   std::cout << "-------------------------------------" << std::endl;
+  
+
 }
 
 bool Reversi::isBoardFull() const {
@@ -359,35 +388,6 @@ bool Reversi::isAnyPossiblePlay() {
   }
   return false;
 }
-
-/*
-bool Reversi::gameOver() {
-  int x = 0, o = 0;
-
-  for(int i = 0;i < _defaultRows; i++) {
-    for(int j = 0;j < _defaultCols; j++) {
-      if(_board[i][j] == "X") {
-        x += 1;
-      }
-      else if(_board[i][j] == "O") {
-        o += 1;
-      }
-      else if(_board[i][j] == " ") {
-        return false;
-      }
-    }
-  }
-  if(x > o) {
-    std::cout << "FIM DO JOGO" << std::endl << "X GANHOU!!" << std::endl;
-  }
-  else if(x < o) {
-    std::cout << "FIM DO JOGO" << std::endl << "O GANHOU!!" << std::endl;
-  }
-  else {
-    std::cout << "FIM DO JOGO" << std::endl << "EMPATE!!" << std::endl;
-  }
-  return true;
-}*/
 
 void Reversi::match(Player* player1, Player* player2) {
   int row, col;
@@ -464,7 +464,31 @@ void Reversi::match(Player* player1, Player* player2) {
     
     printBoard();
     piecesCounter();
-      
+
+    if(_xCounter == 0 || _oCounter == 0){
+      std::string winner;
+
+      if(_xCounter == 0){
+        winner = _turn == "O" ? currentPlayer : outerPlayer;                                //caso em que um player zera suas peças
+      }
+      else if(_oCounter == 0){
+        winner = _turn == "X" ? currentPlayer : outerPlayer;
+      }
+
+      std::cout << std::endl << "Parabéns " << winner << "! Você venceu!" << std::endl;
+
+      if (winner == player1->getNickName()) {
+        player1->setVictories("reversi");
+        player2->setDefeats("reversi");
+      } else {
+        player1->setDefeats("reversi");
+        player2->setVictories("reversi");
+      }
+      std::cout << std::endl;
+      break;
+    }
+
+
     if(isBoardFull()) {      
       std::string winner;
 
