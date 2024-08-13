@@ -247,16 +247,23 @@ void ConnectFour::match(Player* player1, Player* player2) {
 
         std::cout << "Turno de " << currentPlayer << " (" << _currentPiece << "): ";
         int input;
-        if (!(std::cin >> input) || input < 1 || input > _defaultCols) {
-            std::cout << "ERRO: Jogada inválida. Digite um número entre 1 e " << _defaultCols << ".\n";
-            std::cin.clear(); // Limpa o estado de erro
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Limpa o buffer de entrada
-            continue;
-        }
 
-        if (!makeMove(input)) {
-            std::cout << "ERRO: Coluna cheia. Tente novamente.\n";
+        try{
+            if(!(std::cin >> input) || input < 1 || input > _defaultCols) {
+                throw std::out_of_range("Posição fora dos limites do tabuleiro!");
+            }
+            if(!makeMove(input)) {
+                throw std::invalid_argument("Coluna cheia. Tente novamente!");
+            }
+
+        }catch (const std::out_of_range& e) {
+            std::cout << "ERRO:" << e.what() << std::endl;
             continue;
+
+        }catch (const std::invalid_argument& e) {
+            std::cout << "ERRO:" << e.what() << std::endl;
+            continue;
+      
         }
 
         if (checkWin()) {

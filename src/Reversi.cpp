@@ -1,8 +1,21 @@
+/**
+ * @file Reversi.cpp
+ * @brief Implementação da classe Reversi para o jogo Reversi.
+ */
+
 #include "Game.hpp"
 #include "Reversi.hpp"
 #include <iostream>
 #include <limits>
 #include <string>
+#include <stdexcept>
+
+/**
+ * @brief Construtor da classe Reversi.
+ * 
+ * @param rows Número de linhas do tabuleiro.
+ * @param cols Número de colunas do tabuleiro.
+ */
 
 Reversi::Reversi(int rows, int cols) : Game(rows, cols) {
   _board[_defaultRows/2 - 1][_defaultCols/2 - 1] = "X";
@@ -10,6 +23,14 @@ Reversi::Reversi(int rows, int cols) : Game(rows, cols) {
   _board[_defaultRows/2 - 1][(_defaultCols)/2] = "O";
   _board[_defaultRows/2][(_defaultCols)/2] = "X";
 }
+
+/**
+ * @brief Verifica se há uma peça do oponente adjacente a uma posição.
+ * 
+ * @param rows Linha da posição a ser verificada.
+ * @param cols Coluna da posição a ser verificada.
+ * @return true se há uma peça do oponente adjacente, false caso contrário.
+ */
 
 bool Reversi::thereIsNearby(int rows, int cols) {
 
@@ -33,6 +54,14 @@ bool Reversi::thereIsNearby(int rows, int cols) {
 
   return false;
 }
+
+/**
+ * @brief Verifica se há uma conexão entre uma posição e outra peça do mesmo tipo.
+ * 
+ * @param rows Linha da posição a ser verificada.
+ * @param cols Coluna da posição a ser verificada.
+ * @return true se há conexão, false caso contrário.
+ */
 
 bool Reversi::thereIsConnection(int rows, int cols) {
   bool playable = false;
@@ -177,6 +206,13 @@ bool Reversi::thereIsConnection(int rows, int cols) {
   }
   return playable;
 }
+
+/**
+ * @brief Realiza uma jogada no tabuleiro.
+ * 
+ * @param rows Linha onde a peça será colocada.
+ * @param cols Coluna onde a peça será colocada.
+ */
 
 void Reversi::makeMove(int rows, int cols) {
   _board[rows][cols] = _turn;
@@ -340,6 +376,10 @@ void Reversi::makeMove(int rows, int cols) {
   }
 }
 
+/**
+ * @brief Conta o número de peças de cada jogador no tabuleiro.
+ */
+
 void Reversi::piecesCounter() {
   int auxXCounter = 0;
   int auxOCounter = 0;
@@ -364,6 +404,12 @@ void Reversi::piecesCounter() {
 
 }
 
+/**
+ * @brief Verifica se o tabuleiro está cheio.
+ * 
+ * @return true se o tabuleiro está cheio, false caso contrário.
+ */
+
 bool Reversi::isBoardFull() const {
 
   if(_xCounter+_oCounter == _defaultRows*_defaultCols)
@@ -371,6 +417,12 @@ bool Reversi::isBoardFull() const {
 
   return false; 
 }
+
+/**
+ * @brief Verifica se há alguma jogada possível.
+ * 
+ * @return true se há jogadas possíveis, false caso contrário.
+ */
 
 bool Reversi::isAnyPossiblePlay() {
   for(int i = 0;i < _defaultRows; i++) {
@@ -388,6 +440,13 @@ bool Reversi::isAnyPossiblePlay() {
   }
   return false;
 }
+
+/**
+ * @brief Realiza uma partida de Reversi entre dois jogadores.
+ * 
+ * @param player1 Ponteiro para o jogador 1.
+ * @param player2 Ponteiro para o jogador 2.
+ */
 
 void Reversi::match(Player* player1, Player* player2) {
   int row, col;
@@ -435,31 +494,30 @@ void Reversi::match(Player* player1, Player* player2) {
     row--;
     col--;
 
-    if(
-      row < 0 || 
-      row > _defaultRows - 1 || 
-      col < 0 || 
-      col > _defaultCols - 1
-    ) {
-      std::cout << "ERRO: jogada inválida" << std::endl;   //jogar em lugar ocupado
-      continue;
-    }
+    
+    try{
+      if(row < 0 || row > _defaultRows - 1 || col < 0 || col > _defaultCols - 1) {
+        throw std::out_of_range("Posição fora dos limites do tabuleiro!");
+      }
+      if(_board[row][col] != " ") {
+        throw std::invalid_argument("Posição já ocupada!");
+      }
+      if(!thereIsNearby(row, col)) {
+        throw std::invalid_argument("Não tem peça oposta adjacente.");
+      }
+      if(!thereIsConnection(row, col)) {
+        throw std::invalid_argument("Não tem conexão com outra peça do mesmo tipo.");
+      }
 
-    if(_board[row][col] != " ") {
-      std::cout << "ERRO: jogada inválida" << std::endl;   //jogar em lugar ocupado
+    }catch (const std::out_of_range& e) {
+      std::cout << "ERRO:" << e.what() << std::endl;
       continue;
-    }
 
-    if(!thereIsNearby(row, col)) {
-      std::cout << "ERRO: jogada inválida" << std::endl;   //nao tem peça oposta perto
+    }catch (const std::invalid_argument& e) {
+      std::cout << "ERRO:" << e.what() << std::endl;
       continue;
+      
     }
-
-    if(!thereIsConnection(row, col)) {
-      std::cout << "ERRO: jogada inválida" << std::endl;   //nao tem conexão com outro da mesma peça
-      continue;
-    }
-
     makeMove(row, col); //Antigo isPlaying
     
     printBoard();
