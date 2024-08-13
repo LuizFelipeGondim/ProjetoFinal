@@ -114,15 +114,20 @@ void GameBoard::startGame(
         std::cout << "3. 7x8\n";
         std::cout << "Digite o número da opção desejada: ";
 
-        if (std::cin >> choice && choice >= 1 && choice <= 3) {
+        try{
+          if(std::cin >> choice && choice >= 1 && choice <= 3) {
             rows = 4 + choice; // 5, 6, 7
             cols = 5 + choice; // 6, 7, 8
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
             break; 
-        } else {
-            std::cout << "ERRO: Entrada inválida. Digite um número de 1 a 3.\n";
-            std::cin.clear(); 
-            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+          }
+          else {
+            throw std::out_of_range("Entrada inválida. Digite um número de 1 a 3!");
+          }
+
+        }catch (const std::out_of_range& e) {
+          std::cout << "ERRO:" << e.what() << std::endl << std::endl;
+          continue;
         }
     }
 
