@@ -7,7 +7,7 @@
  * @param rows Número de linhas do tabuleiro.
  * @param cols Número de colunas do tabuleiro.
  */
-ConnectFour::ConnectFour(int rows, int cols) : _currentPiece("X"), Game(rows, cols) {}
+ConnectFour::ConnectFour(int rows, int cols) : Game(rows, cols), _currentPiece("X") {}
 
 /**
  * @brief Verifica se a jogada é válida.
@@ -34,19 +34,6 @@ bool ConnectFour::makeMove(int col) {
         }
     }
     return false;
-}
-
-/**
- * @brief Verifica se o tabuleiro está cheio.
- * @return Verdadeiro se o tabuleiro estiver cheio, falso caso contrário.
- */
-bool ConnectFour::isBoardFull() const {
-    for (const auto& row : _board) {
-        for (std::string cell : row) {
-            if (cell == " ") return false;
-        }
-    }
-    return true;
 }
 
 /**

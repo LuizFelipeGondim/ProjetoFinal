@@ -1,5 +1,6 @@
 #include "GameBoard.hpp"
 #include "Reversi.hpp"
+#include "TicTacToe.hpp"
 
 #include <iostream>
 #include <string>
@@ -102,6 +103,10 @@ void GameBoard::startGame(
 
     reversi.match(player1, player2);
 
+  } else if (game == "tictactoe") {
+    TicTacToe ticTacToe(3, 3);
+
+    ticTacToe.match(player1, player2);
   } else {
 
     int choice;

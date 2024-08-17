@@ -35,3 +35,16 @@ void Game::printBoard() const{
     std::cout << std::endl;
   }
 }
+
+/**
+ * @brief Verifica se o tabuleiro está cheio.
+ * @return Verdadeiro se o tabuleiro estiver cheio, falso caso contrário.
+ */
+bool Game::isBoardFull() const {
+    for (const auto& row : _board) {
+        for (std::string cell : row) {
+            if (cell == " ") return false;
+        }
+    }
+    return true;
+}

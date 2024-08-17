@@ -1,4 +1,4 @@
-#include "../include/GameBoard.hpp"
+#include "GameBoard.hpp"
 
 #include <iostream>
 #include <string>
@@ -48,7 +48,7 @@ int main(){
           std::cout << "Jogador " << nickName << " removido com sucesso!" << std::endl;
         }
         else {
-          throw std::invalid_argument("Jogador Inexistente!");
+          throw std::invalid_argument("Jogador Existente!");
         }
 
       }catch (const std::invalid_argument& e) {
@@ -79,7 +79,7 @@ int main(){
       std::string game, nickNamePlayer1, nickNamePlayer2;
       bool playerExists;
 
-      std::cout << "Informe o jogo: [Reversi|Lig4]" << std::endl;
+      std::cout << "Informe o jogo: [Reversi|Lig4|TicTacToe]" << std::endl;
       std::cin >> game;
 
       std::transform(game.begin(), game.end(), game.begin(),
@@ -87,7 +87,7 @@ int main(){
 
       while(1){
         try{
-          if(game != "reversi" && game != "lig4"){
+          if(game != "reversi" && game != "lig4" && game != "tictactoe"){
             throw std::invalid_argument("Informe um jogo válido: [Reversi|Lig4]");
           }
         else break;

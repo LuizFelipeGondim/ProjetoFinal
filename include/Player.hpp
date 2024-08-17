@@ -7,8 +7,8 @@
 
 class Player {
   private:
-    std::string _name;
     std::string _nickName;
+    std::string _name;
     std::map<std::string, int> _victories;
     std::map<std::string, int> _defeats;
 

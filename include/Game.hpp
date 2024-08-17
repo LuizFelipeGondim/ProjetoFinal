@@ -36,7 +36,7 @@ class Game {
      * @brief Verifica se o tabuleiro está cheio.
      * @return Verdadeiro se o tabuleiro estiver cheio, falso caso contrário.
      */
-    virtual bool isBoardFull() const = 0;
+    virtual bool isBoardFull() const;
 
     /**
      * @brief Executa uma partida entre dois jogadores.

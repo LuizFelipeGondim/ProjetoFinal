@@ -53,19 +53,6 @@ class ConnectFour : public Game {
 
   public:
     /**
-     * @brief Construtor da classe ConnectFour.
-     * @param rows Número de linhas do tabuleiro.
-     * @param cols Número de colunas do tabuleiro.
-     */
-    ConnectFour(int rows, int cols);
-
-    /**
-     * @brief Verifica se o tabuleiro está cheio.
-     * @return Verdadeiro se o tabuleiro estiver cheio, falso caso contrário.
-     */
-    bool isBoardFull() const override;
-
-    /**
      * @brief Imprime o estado atual do tabuleiro.
      */
     void printBoard() const override;
@@ -75,6 +62,13 @@ class ConnectFour : public Game {
      * @return Número de possíveis formas de ganhar.
      */
     int countPossibleWins() const;
+    /**
+     * @brief Construtor da classe ConnectFour.
+     * @param rows Número de linhas do tabuleiro.
+     * @param cols Número de colunas do tabuleiro.
+     */
+    ConnectFour(int rows, int cols);
+
 
     /**
      * @brief Executa uma partida entre dois jogadores.
