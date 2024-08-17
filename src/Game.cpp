@@ -12,7 +12,7 @@
  * @param scols Número de colunas do tabuleiro.
  */
 Game::Game(int rows, int cols) : _defaultRows(rows), _defaultCols(cols) {
-    _board.resize(_defaultRows, std::vector<std::string>(_defaultCols, " "));
+  _board.resize(_defaultRows, std::vector<std::string>(_defaultCols, " "));
 }
 
 void Game::printBoard() const{
@@ -41,10 +41,10 @@ void Game::printBoard() const{
  * @return Verdadeiro se o tabuleiro estiver cheio, falso caso contrário.
  */
 bool Game::isBoardFull() const {
-    for (const auto& row : _board) {
-        for (std::string cell : row) {
-            if (cell == " ") return false;
-        }
+  for (const auto& row : _board) {
+    for (std::string cell : row) {
+      if (cell == " ") return false;
     }
-    return true;
+  }
+  return true;
 }

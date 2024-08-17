@@ -1,6 +1,4 @@
 #include "GameBoard.hpp"
-#include "Reversi.hpp"
-#include "TicTacToe.hpp"
 
 #include <iostream>
 #include <string>
@@ -12,6 +10,8 @@ GameBoard::GameBoard() {
 }
 
 GameBoard::~GameBoard() {
+  writePlayersToFile();
+  
   for(Player* player : _players)
     delete player;
 

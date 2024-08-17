@@ -25,9 +25,10 @@ int main(){
         if(!playerExists){
           gameBoard.registerPlayer(nickName, name);
           std::cout << "Jogador " << nickName << " cadastrado com sucesso!" << std::endl;
+          std::cout << std::endl;
         }
         else {
-          throw std::invalid_argument("Jogador Inexistente!");
+          throw std::invalid_argument("Jogador existente!");
         }
 
       }catch (const std::invalid_argument& e) {
@@ -141,8 +142,6 @@ int main(){
       std::cout << std::endl;
     }
   }
-
-  gameBoard.writePlayersToFile();
 
   return 0;
 }

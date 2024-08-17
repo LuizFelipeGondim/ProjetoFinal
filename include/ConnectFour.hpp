@@ -51,7 +51,6 @@ class ConnectFour : public Game {
      */
     bool makeMove(int col);
 
-  public:
     /**
      * @brief Imprime o estado atual do tabuleiro.
      */
@@ -62,13 +61,14 @@ class ConnectFour : public Game {
      * @return Número de possíveis formas de ganhar.
      */
     int countPossibleWins() const;
+
+  public:
     /**
      * @brief Construtor da classe ConnectFour.
      * @param rows Número de linhas do tabuleiro.
      * @param cols Número de colunas do tabuleiro.
      */
     ConnectFour(int rows, int cols);
-
 
     /**
      * @brief Executa uma partida entre dois jogadores.

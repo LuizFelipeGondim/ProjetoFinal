@@ -11,29 +11,29 @@ TicTacToe::TicTacToe(int rows, int cols) : Game(rows, cols) {}
  * @return Verdadeiro se houver um vencedor, falso caso contrário.
  */
 bool TicTacToe::checkWin() const {
-    // Verifica as linhas
-    for (const auto& row : _board) {
-        if (row[0] != " " && row[0] == row[1] && row[1] == row[2]) {
-            return true;
-        }
+  // Verifica as linhas
+  for (const auto& row : _board) {
+    if (row[0] != " " && row[0] == row[1] && row[1] == row[2]) {
+      return true;
     }
+  }
 
-    // Verifica as colunas
-    for (int col = 0; col < 3; ++col) {
-        if (_board[0][col] != " " && _board[0][col] == _board[1][col] && _board[1][col] == _board[2][col]) {
-            return true;
-        }
+  // Verifica as colunas
+  for (int col = 0; col < 3; ++col) {
+    if (_board[0][col] != " " && _board[0][col] == _board[1][col] && _board[1][col] == _board[2][col]) {
+      return true;
     }
+  }
 
-    // Verifica as diagonais
-    if (_board[0][0] != " " && _board[0][0] == _board[1][1] && _board[1][1] == _board[2][2]) {
-        return true;
-    }
-    if (_board[0][2] != " " && _board[0][2] == _board[1][1] && _board[1][1] == _board[2][0]) {
-        return true;
-    }
+  // Verifica as diagonais
+  if (_board[0][0] != " " && _board[0][0] == _board[1][1] && _board[1][1] == _board[2][2]) {
+    return true;
+  }
+  if (_board[0][2] != " " && _board[0][2] == _board[1][1] && _board[1][1] == _board[2][0]) {
+    return true;
+  }
 
-    return false;
+  return false;
 }
 
 /**
@@ -44,11 +44,11 @@ bool TicTacToe::checkWin() const {
  * @return Verdadeiro se a jogada for válida, falso caso contrário.
  */
 bool TicTacToe::makeMove(int row, int col, const std::string& symbol) {
-    if (row >= 0 && row < 3 && col >= 0 && col < 3 && _board[row][col] == " ") {
-        _board[row][col] = symbol;
-        return true;
-    }
-    return false;
+  if (row >= 0 && row < 3 && col >= 0 && col < 3 && _board[row][col] == " ") {
+    _board[row][col] = symbol;
+    return true;
+  }
+  return false;
 }
 
 /**
@@ -58,47 +58,47 @@ bool TicTacToe::makeMove(int row, int col, const std::string& symbol) {
  */
 void TicTacToe::match(Player* player1, Player* player2) {
 
-    std::string nickNamePlayer1 = player1->getNickName();
-    std::string nickNamePlayer2 = player2->getNickName();
+  std::string nickNamePlayer1 = player1->getNickName();
+  std::string nickNamePlayer2 = player2->getNickName();
 
-    std::string currentPlayer = nickNamePlayer1;
-    std::string currentPiece = "X";  // Definir símbolo inicial
+  std::string currentPlayer = nickNamePlayer1;
+  std::string currentPiece = "X";  // Definir símbolo inicial
 
-    while (!isBoardFull() && !checkWin()) {
-        printBoard();
-        int row, col;
-        std::cout << currentPlayer << " (" << currentPiece << "), faça sua jogada (linha e coluna): ";
-        std::cin >> row >> col;
-        --row; // Ajusta para índice baseado em 0
-        --col; // Ajusta para índice baseado em 0
-
-        if (makeMove(row, col, currentPiece)) {
-            if (checkWin()) {
-                printBoard();
-                std::cout << currentPlayer << " venceu!" << std::endl;
-                std::cout << std::endl;
-
-                if (currentPlayer == nickNamePlayer1) {
-                    player1->setVictories("ticTacToe");
-                    player2->setDefeats("ticTacToe");
-                } else {
-                    player1->setDefeats("ticTacToe");
-                    player2->setVictories("ticTacToe");
-                }
-                return;
-            }
-            // Alterna o jogador e o símbolo
-            currentPlayer = (currentPlayer == nickNamePlayer1) ? nickNamePlayer2 : nickNamePlayer1;
-            currentPiece = (currentPiece == "X") ? "O" : "X";
-        } else {
-            std::cout << "Movimento inválido! Tente novamente." << std::endl;
-        }
-    }
-
+  while (!isBoardFull() && !checkWin()) {
     printBoard();
-    if (isBoardFull() && !checkWin()) {
-        std::cout << "O jogo terminou em empate!" << std::endl;
+    int row, col;
+    std::cout << currentPlayer << " (" << currentPiece << "), faça sua jogada (linha e coluna): ";
+    std::cin >> row >> col;
+    --row; // Ajusta para índice baseado em 0
+    --col; // Ajusta para índice baseado em 0
+
+    if (makeMove(row, col, currentPiece)) {
+      if (checkWin()) {
+        printBoard();
+        std::cout << currentPlayer << " venceu!" << std::endl;
         std::cout << std::endl;
+
+        if (currentPlayer == nickNamePlayer1) {
+          player1->setVictories("ticTacToe");
+          player2->setDefeats("ticTacToe");
+        } else {
+          player1->setDefeats("ticTacToe");
+          player2->setVictories("ticTacToe");
+        }
+        return;
+      }
+      // Alterna o jogador e o símbolo
+      currentPlayer = (currentPlayer == nickNamePlayer1) ? nickNamePlayer2 : nickNamePlayer1;
+      currentPiece = (currentPiece == "X") ? "O" : "X";
+    } else {
+      std::cout << "Movimento inválido! Tente novamente." << std::endl;
     }
+  }
+
+  printBoard();
+  if (isBoardFull() && !checkWin()) {
+    std::cout << "O jogo terminou em empate!" << std::endl;
+    std::cout << std::endl;
+  }
 
 }

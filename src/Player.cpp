@@ -32,7 +32,7 @@ void Player::readPlayers(std::ifstream& in){
 void Player::writePlayers(std::ofstream& out) const{
   out << _nickName << " " << _name << " ";
   out << _victories.at("reversi") << " " << _defeats.at("reversi") << " ";
-  out << _victories.at("connectFour") << " " << _defeats.at("connectFour") << std::endl;
+  out << _victories.at("connectFour") << " " << _defeats.at("connectFour") << " ";
   out << _victories.at("ticTacToe") << " " << _defeats.at("ticTacToe") << std::endl;
 }
 
