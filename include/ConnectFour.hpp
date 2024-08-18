@@ -2,7 +2,6 @@
 #define CONNECTFOUR_HPP
 
 #include "Game.hpp"
-#include "Player.hpp"
 #include <vector>
 #include <string>
 

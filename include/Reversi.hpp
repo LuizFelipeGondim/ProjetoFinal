@@ -13,8 +13,6 @@
  */
 class Reversi : public Game {
     private:
-      std::string _turn = "X"; ///< De qual peça é a vez, a partida começa com "X" jogando
-      std::string _watching = "O"; ///< Quem não está jogando nessa rodada, "O" começa assistindo
       int _xCounter = 2; ///< Contador de peças X
       int _oCounter = 2; ///< Contador de peças O
 
@@ -25,7 +23,7 @@ class Reversi : public Game {
         * @param cols A coluna onde a peça vai ser jogada após a verificação.
         * @return true se tem uma peça oposta em posição adjacente, false se não tem.
         */
-      bool thereIsNearby(int rows, int cols);
+      bool thereIsNearby(int rows, int cols, std::string watching);
 
       /**
         * @brief Verifica se existe conexão entre as peças
@@ -34,27 +32,20 @@ class Reversi : public Game {
         * @param cols A coluna da peça que precisa ser verificada.
         * @return True se tem uma conexão, false se não tem.
         */
-      bool thereIsConnection(int rows, int cols);
+      bool thereIsConnection(int rows, int cols, std::string turn, std::string watching);
 
       /**
         * @brief Atualiza o contador de peças X e O
         */
       void piecesCounter();
 
-      /**
-        * @brief Realiza uma jogada no tabuleiro.
-        * 
-        * @param rows A linha de sua jogada.
-        * @param cols A coluna de sua jogada.
-        */
-      void makeMove(int rows, int cols);
 
       /**
         * @brief Checa se existe alguma jogada possível.
         * 
         * @return true se tem alguma jogada possível, false se não tem.
         */
-      bool isAnyPossiblePlay();
+      bool isAnyPossiblePlay(std::string turn, std::string watching);
 
       /**
         * @brief Verifica se o tabuleiro está cheio.
@@ -72,6 +63,14 @@ class Reversi : public Game {
       * @param cols Número de colunas do tabuleiro.
       */
     Reversi(int rows, int cols);
+
+    /**
+      * @brief Realiza uma jogada no tabuleiro.
+      * 
+      * @param rows A linha de sua jogada.
+      * @param cols A coluna de sua jogada.
+      */
+    void makeMove(int rows, int cols, std::string turn, std::string watching);
 
 
     /**

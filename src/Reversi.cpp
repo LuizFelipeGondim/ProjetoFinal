@@ -29,10 +29,11 @@ Reversi::Reversi(int rows, int cols) : Game(rows, cols) {
  * 
  * @param rows Linha da posição a ser verificada.
  * @param cols Coluna da posição a ser verificada.
+ * @param watching Peça do outro jogador.
  * @return true se há uma peça do oponente adjacente, false caso contrário.
  */
 
-bool Reversi::thereIsNearby(int rows, int cols) {
+bool Reversi::thereIsNearby(int rows, int cols, std::string watching) {
 
   bool top = (rows > 0);
   bool bottom = (rows + 1 < _defaultRows);
@@ -40,14 +41,14 @@ bool Reversi::thereIsNearby(int rows, int cols) {
   bool right = (cols + 1 < _defaultCols);
 
   if (
-    (bottom && _board[rows + 1][cols] == _watching) ||
-    (top && _board[rows - 1][cols] == _watching) ||
-    (right && _board[rows][cols + 1] == _watching) ||
-    (left && _board[rows][cols - 1] == _watching) ||
-    (bottom && right && _board[rows + 1][cols + 1] == _watching) ||
-    (bottom && left && _board[rows + 1][cols - 1] == _watching) ||
-    (top && right && _board[rows - 1][cols + 1] == _watching) ||
-    (top && left && _board[rows - 1][cols - 1] == _watching)
+    (bottom && _board[rows + 1][cols] == watching) ||
+    (top && _board[rows - 1][cols] == watching) ||
+    (right && _board[rows][cols + 1] == watching) ||
+    (left && _board[rows][cols - 1] == watching) ||
+    (bottom && right && _board[rows + 1][cols + 1] == watching) ||
+    (bottom && left && _board[rows + 1][cols - 1] == watching) ||
+    (top && right && _board[rows - 1][cols + 1] == watching) ||
+    (top && left && _board[rows - 1][cols - 1] == watching)
   ) {
     return true;
   }
@@ -60,22 +61,24 @@ bool Reversi::thereIsNearby(int rows, int cols) {
  * 
  * @param rows Linha da posição a ser verificada.
  * @param cols Coluna da posição a ser verificada.
+ * @param turn Peça do jogador atual.
+ * @param watching Peça do outro jogador.
  * @return true se há conexão, false caso contrário.
  */
 
-bool Reversi::thereIsConnection(int rows, int cols) {
+bool Reversi::thereIsConnection(int rows, int cols, std::string turn, std::string watching) {
   bool playable = false;
 
   if(!(rows == _defaultRows-1)) {
-    if(_board[rows+1][cols] == _watching) {            //Embaixo
+    if(_board[rows+1][cols] == watching) {            //Embaixo
       for(int i = rows+1; i < _defaultRows; i++) {
-        if(_board[i][cols] == _watching){
+        if(_board[i][cols] == watching){
           continue;
         }
         else if(_board[i][cols] == " ") {
           break;
         } 
-        else if(_board[i][cols] == _turn) {
+        else if(_board[i][cols] == turn) {
           playable = true;
           break;
         }
@@ -83,16 +86,16 @@ bool Reversi::thereIsConnection(int rows, int cols) {
     }
 
     if(cols != _defaultCols-1) {
-      if(_board[rows+1][cols+1] == _watching) {     //Embaixo-Direita
+      if(_board[rows+1][cols+1] == watching) {     //Embaixo-Direita
               
         for(int i = rows+1, j = cols+1; i < _defaultRows && j < _defaultCols ; i++, j++) {
-          if(_board[i][j] == _watching) {
+          if(_board[i][j] == watching) {
             continue;
           }
           else if(_board[i][j] == " ") {
             break;
           } 
-          else if(_board[i][j] == _turn) {
+          else if(_board[i][j] == turn) {
             playable = true;
             break;
           }
@@ -101,16 +104,16 @@ bool Reversi::thereIsConnection(int rows, int cols) {
     }
 
     if (cols != 0) {
-      if(_board[rows+1][cols-1] == _watching) {     //Embaixo-Esquerda
+      if(_board[rows+1][cols-1] == watching) {     //Embaixo-Esquerda
               
         for(int i = rows+1, j = cols-1; i < _defaultRows && j >= 0 ; i++, j--) {
-          if(_board[i][j] == _watching) {
+          if(_board[i][j] == watching) {
             continue;
           }
           else if(_board[i][j] == " ") {
             break;
           } 
-          else if(_board[i][j] == _turn) {
+          else if(_board[i][j] == turn) {
             playable = true;
             break;
           }
@@ -120,31 +123,31 @@ bool Reversi::thereIsConnection(int rows, int cols) {
   }
 
   if(rows != 0) {
-    if(_board[rows-1][cols] == _watching) {       //Em cima
+    if(_board[rows-1][cols] == watching) {       //Em cima
       for(int i = rows-1; i >= 0; i--) {
-        if(_board[i][cols] == _watching) {
+        if(_board[i][cols] == watching) {
           continue;
         }
         else if(_board[i][cols] == " ") {
           break;
         } 
-        else if(_board[i][cols] == _turn) {
+        else if(_board[i][cols] == turn) {
           playable = true;
           break;
         }
       }
     }
     if(cols != _defaultCols-1) {
-      if(_board[rows-1][cols+1] == _watching) {     //Em cima-Direita
+      if(_board[rows-1][cols+1] == watching) {     //Em cima-Direita
                       
         for(int i = rows-1, j = cols+1; i >= 0 && j < _defaultCols ; i--, j++) {
-          if(_board[i][j] == _watching) {
+          if(_board[i][j] == watching) {
             continue;
           }
           else if(_board[i][j] == " ") {
             break;
           } 
-          else if(_board[i][j] == _turn) {
+          else if(_board[i][j] == turn) {
             playable = true;
             break;
           }
@@ -153,16 +156,16 @@ bool Reversi::thereIsConnection(int rows, int cols) {
     }
 
     if (cols != 0) {
-      if(_board[rows-1][cols-1] == _watching) {     //Em cima-Esquerda
+      if(_board[rows-1][cols-1] == watching) {     //Em cima-Esquerda
                       
         for(int i = rows-1, j = cols-1 ; i >= 0 && j >= 0 ; i--, j--) {
-          if(_board[i][j] == _watching) {
+          if(_board[i][j] == watching) {
             continue;
           }
           else if(_board[i][j] == " ") {
             break;
           } 
-          else if(_board[i][j] == _turn) {
+          else if(_board[i][j] == turn) {
             playable = true;
             break;
           }
@@ -172,15 +175,15 @@ bool Reversi::thereIsConnection(int rows, int cols) {
   }
 
   if(cols != _defaultCols-1) {
-    if(_board[rows][cols+1] == _watching) {       //Direita
+    if(_board[rows][cols+1] == watching) {       //Direita
       for(int i = cols+1;i < _defaultCols; i++) {
-        if(_board[rows][i] == _watching) {
+        if(_board[rows][i] == watching) {
           continue;
         }
         else if(_board[rows][i] == " ") {
           break;
         } 
-        else if(_board[rows][i] == _turn) {
+        else if(_board[rows][i] == turn) {
           playable = true;
           break;
         }
@@ -189,15 +192,15 @@ bool Reversi::thereIsConnection(int rows, int cols) {
   }
 
   if(cols != 0) {
-    if(_board[rows][cols-1] == _watching) {       //Esquerda
+    if(_board[rows][cols-1] == watching) {       //Esquerda
       for(int i = cols-1;i >= 0; i--) {
-        if(_board[rows][i] == _watching) {
+        if(_board[rows][i] == watching) {
           continue;
         }
         else if(_board[rows][i] == " ") {
           break;
         } 
-        else if(_board[rows][i] == _turn) {
+        else if(_board[rows][i] == turn) {
           playable = true;
           break;
         }
@@ -212,23 +215,25 @@ bool Reversi::thereIsConnection(int rows, int cols) {
  * 
  * @param rows Linha onde a peça será colocada.
  * @param cols Coluna onde a peça será colocada.
+ * @param turn Peça do jogador atual.
+ * @param watching Peça do outro jogador.
  */
 
-void Reversi::makeMove(int rows, int cols) {
-  _board[rows][cols] = _turn;
+void Reversi::makeMove(int rows, int cols, std::string turn, std::string watching) {
+  _board[rows][cols] = turn;
   if(rows != _defaultRows-1){
 
-    if(_board[rows+1][cols] == _watching) {            //Embaixo
+    if(_board[rows+1][cols] == watching) {            //Embaixo
       for(int i = rows+1;i < _defaultRows; i++) {
-        if(_board[i][cols] == _watching) {
+        if(_board[i][cols] == watching) {
           continue;
         }
         else if(_board[i][cols] == " ") {
           break;
         } 
-        else if(_board[i][cols] == _turn) {
+        else if(_board[i][cols] == turn) {
           for(int k = rows+1;k <= i; k++) {
-            _board[k][cols] = _turn;
+            _board[k][cols] = turn;
           }
           break;
         }
@@ -236,18 +241,18 @@ void Reversi::makeMove(int rows, int cols) {
     }
 
     if(cols != _defaultCols-1) { //Evitar acesso indevido de memÃ³ria
-      if(_board[rows+1][cols+1] == _watching) {     //Embaixo-Direita
+      if(_board[rows+1][cols+1] == watching) {     //Embaixo-Direita
                       
         for(int i = rows+1, j = cols+1; i < _defaultRows && j < _defaultCols ; i++, j++) {
-          if(_board[i][j] == _watching) {
+          if(_board[i][j] == watching) {
             continue;
           }
           else if(_board[i][j] == " ") {
             break;
           } 
-          else if(_board[i][j] == _turn) {
+          else if(_board[i][j] == turn) {
             for(int k = rows+1,m = cols+1;k <= i; k++, m++) {
-              _board[k][m] = _turn;
+              _board[k][m] = turn;
             }
             break;
           }
@@ -256,18 +261,18 @@ void Reversi::makeMove(int rows, int cols) {
     }
 
     if(cols != 0) { 
-      if(_board[rows+1][cols-1] == _watching) {     //Embaixo-Esquerda
+      if(_board[rows+1][cols-1] == watching) {     //Embaixo-Esquerda
 
         for(int i = rows+1, j = cols-1; i < _defaultRows && j >= 0 ; i++, j--) {
-          if(_board[i][j] == _watching) {
+          if(_board[i][j] == watching) {
             continue;
           }
           else if(_board[i][j] == " ") {
             break;
           }    
-          else if(_board[i][j] == _turn) {
+          else if(_board[i][j] == turn) {
             for(int k = rows+1,m = cols-1;k <= i; k++, m--) {
-              _board[k][m] = _turn;
+              _board[k][m] = turn;
             }
             break;
           }
@@ -277,17 +282,17 @@ void Reversi::makeMove(int rows, int cols) {
   }
 
   if(rows != 0) {
-    if(_board[rows-1][cols] == _watching) {       //Em cima
+    if(_board[rows-1][cols] == watching) {       //Em cima
       for(int i = rows-1;i >= 0; i--){
-        if(_board[i][cols] == _watching) {
+        if(_board[i][cols] == watching) {
           continue;
         }
         else if(_board[i][cols] == " ") {
           break;
         } 
-        else if(_board[i][cols] == _turn) {
+        else if(_board[i][cols] == turn) {
           for(int k = rows-1;k >= i; k--) {
-            _board[k][cols] = _turn;
+            _board[k][cols] = turn;
           }
           break;
         }
@@ -296,18 +301,18 @@ void Reversi::makeMove(int rows, int cols) {
 
     
     if(cols != _defaultCols-1) { 
-      if(_board[rows-1][cols+1] == _watching) {     //Em cima-Direita
+      if(_board[rows-1][cols+1] == watching) {     //Em cima-Direita
             
         for(int i = rows-1, j = cols+1; i >= 0 && j < _defaultCols ; i--, j++) {
-          if(_board[i][j] == _watching) {
+          if(_board[i][j] == watching) {
             continue;
           }
           else if(_board[i][j] == " ") {
             break;
           } 
-          else if(_board[i][j] == _turn) {
+          else if(_board[i][j] == turn) {
             for(int k = rows-1,m = cols+1; k >= i; k--, m++) {
-              _board[k][m] = _turn;
+              _board[k][m] = turn;
             }
             break;
           }
@@ -316,18 +321,18 @@ void Reversi::makeMove(int rows, int cols) {
     }
 
     if (cols != 0) {
-      if(_board[rows-1][cols-1] == _watching) {     //Em cima-Esquerda
+      if(_board[rows-1][cols-1] == watching) {     //Em cima-Esquerda
                 
         for(int i = rows-1, j = cols-1; i >= 0 && j >= 0 ; i--, j--) {
-          if(_board[i][j] == _watching) {
+          if(_board[i][j] == watching) {
             continue;
           }
           else if(_board[i][j] == " ") {
             break;
           } 
-          else if(_board[i][j] == _turn) {
+          else if(_board[i][j] == turn) {
             for(int k = rows-1,m = cols-1; k >= i; k--, m--) {
-              _board[k][m] = _turn;
+              _board[k][m] = turn;
             }
             break;
           }
@@ -338,17 +343,17 @@ void Reversi::makeMove(int rows, int cols) {
 
   if(cols != _defaultCols-1) {
 
-    if(_board[rows][cols+1] == _watching) {                //Direita
+    if(_board[rows][cols+1] == watching) {                //Direita
       for(int i = cols+1;i < _defaultCols; i++) {
-        if(_board[rows][i] == _watching) {
+        if(_board[rows][i] == watching) {
           continue;
         }
         else if(_board[rows][i] == " ") {
           break;
         } 
-        else if(_board[rows][i] == _turn) {
+        else if(_board[rows][i] == turn) {
           for(int k = cols+1;k <= i; k++) {
-            _board[rows][k] = _turn;
+            _board[rows][k] = turn;
           }
           break;
         }
@@ -357,17 +362,17 @@ void Reversi::makeMove(int rows, int cols) {
   }
 
   if(cols != 0) {
-    if(_board[rows][cols-1] == _watching) {       //Esquerda
+    if(_board[rows][cols-1] == watching) {       //Esquerda
       for(int i = cols-1;i >= 0; i--) {
-        if(_board[rows][i] == _watching) {
+        if(_board[rows][i] == watching) {
           continue;
         }
         else if(_board[rows][i] == " ") {
           break;
         } 
-        else if(_board[rows][i] == _turn) {
+        else if(_board[rows][i] == turn) {
           for(int k = cols-1;k >= i; k--) {
-            _board[rows][k] = _turn;
+            _board[rows][k] = turn;
           }
           break;
         }
@@ -420,18 +425,19 @@ bool Reversi::isBoardFull() const {
 
 /**
  * @brief Verifica se há alguma jogada possível.
- * 
+ * @param turn Peça do jogador atual.
+ * @param watching Peça do outro jogador.
  * @return true se há jogadas possíveis, false caso contrário.
  */
 
-bool Reversi::isAnyPossiblePlay() {
+bool Reversi::isAnyPossiblePlay(std::string turn, std::string watching) {
   for(int i = 0;i < _defaultRows; i++) {
     for(int j = 0;j < _defaultCols; j++) {
       if(_board[i][j] == " ") {
-        if(!thereIsNearby(i, j)) {
+        if(!thereIsNearby(i, j, watching)) {
           continue;
         }
-        if(!thereIsConnection(i, j)) {
+        if(!thereIsConnection(i, j, turn, watching)) {
           continue;
         }
         return true;
@@ -453,11 +459,14 @@ void Reversi::match(Player* player1, Player* player2) {
   std::string currentPlayer = player1->getNickName();
   std::string outerPlayer = player2->getNickName();
 
+  std::string turn = "X";
+  std::string watching = "O";
+
   printBoard();
   piecesCounter();
 
   while(1) {
-    std::cout << "Vez de " << currentPlayer << " jogar(" << _turn << "):" << std::endl << std::endl;
+    std::cout << "Vez de " << currentPlayer << " jogar(" << turn << "):" << std::endl << std::endl;
     std::cin >> row;
 
     if(std::cin.fail()) {
@@ -494,7 +503,6 @@ void Reversi::match(Player* player1, Player* player2) {
     row--;
     col--;
 
-    
     try{
       if(row < 0 || row > _defaultRows - 1 || col < 0 || col > _defaultCols - 1) {
         throw std::out_of_range("Posição fora dos limites do tabuleiro!");
@@ -502,10 +510,10 @@ void Reversi::match(Player* player1, Player* player2) {
       if(_board[row][col] != " ") {
         throw std::invalid_argument("Posição já ocupada!");
       }
-      if(!thereIsNearby(row, col)) {
+      if(!thereIsNearby(row, col, watching)) {
         throw std::invalid_argument("Não tem peça oposta adjacente.");
       }
-      if(!thereIsConnection(row, col)) {
+      if(!thereIsConnection(row, col, turn, watching)) {
         throw std::invalid_argument("Não tem conexão com outra peça do mesmo tipo.");
       }
 
@@ -518,7 +526,7 @@ void Reversi::match(Player* player1, Player* player2) {
       continue;
       
     }
-    makeMove(row, col); //Antigo isPlaying
+    makeMove(row, col, turn, watching); //Antigo isPlaying
     
     printBoard();
     piecesCounter();
@@ -527,10 +535,10 @@ void Reversi::match(Player* player1, Player* player2) {
       std::string winner;
 
       if(_xCounter == 0){
-        winner = _turn == "O" ? currentPlayer : outerPlayer;                                //caso em que um player zera suas peças
+        winner = turn == "O" ? currentPlayer : outerPlayer;                                //caso em que um player zera suas peças
       }
       else if(_oCounter == 0){
-        winner = _turn == "X" ? currentPlayer : outerPlayer;
+        winner = turn == "X" ? currentPlayer : outerPlayer;
       }
 
       std::cout << std::endl << "Parabéns " << winner << "! Você venceu!" << std::endl;
@@ -551,9 +559,9 @@ void Reversi::match(Player* player1, Player* player2) {
       std::string winner;
 
       if(_xCounter > _oCounter) {
-        winner = _turn == "X" ? currentPlayer : outerPlayer;
+        winner = turn == "X" ? currentPlayer : outerPlayer;
       } else if(_xCounter < _oCounter) {
-        winner = _turn == "O" ? currentPlayer : outerPlayer;
+        winner = turn == "O" ? currentPlayer : outerPlayer;
       } else {
         std::cout << "O jogo terminou em empate!" << std::endl;
         break;
@@ -571,19 +579,19 @@ void Reversi::match(Player* player1, Player* player2) {
       break;
     }
 
-    std::string aux = _turn;
-    _turn = _watching;
-    _watching = aux;
+    std::string aux = turn;
+    turn = watching;
+    watching = aux;
 
     aux = currentPlayer;
     currentPlayer = outerPlayer;
     outerPlayer = aux;
       
-    if(!isAnyPossiblePlay()) {
+    if(!isAnyPossiblePlay(turn, watching)) {
       std::cout << std::endl << "Nao há jogadas possíveis para o(a) jogador(a) " << currentPlayer << std::endl;
-      std::string aux = _turn;
-      _turn = _watching;
-      _watching = aux;
+      std::string aux = turn;
+      turn = watching;
+      watching = aux;
 
       aux = currentPlayer;
       currentPlayer = outerPlayer;

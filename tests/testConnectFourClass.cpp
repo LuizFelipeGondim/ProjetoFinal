@@ -4,27 +4,27 @@
 #include <sstream>
 
 TEST_CASE("Test valid and invalid movements in ConnectFour") {
-    ConnectFour connectFour(6, 7);
+  ConnectFour connectFour(6, 7);
 
-    SUBCASE("Valid movement") {
-      CHECK(connectFour.makeMove(1, "X")); 
-      CHECK(connectFour.makeMove(7, "X"));  
-    }
+  SUBCASE("Valid movement") {
+    CHECK(connectFour.makeMove(1, "X")); 
+    CHECK(connectFour.makeMove(7, "X"));  
+  }
 
-    SUBCASE("Invalid movement - out of board") {
-      CHECK_FALSE(connectFour.makeMove(0, "X"));
-      CHECK_FALSE(connectFour.makeMove(8, "X")); 
-    }
+  SUBCASE("Invalid movement - out of board") {
+    CHECK_FALSE(connectFour.makeMove(0, "X"));
+    CHECK_FALSE(connectFour.makeMove(8, "X")); 
+  }
 
-    SUBCASE("Invalid movement - full column") {
-      CHECK(connectFour.makeMove(2, "X"));
-      CHECK(connectFour.makeMove(2, "O"));
-      CHECK(connectFour.makeMove(2, "X"));
-      CHECK(connectFour.makeMove(2, "O"));
-      CHECK(connectFour.makeMove(2, "X"));
-      CHECK(connectFour.makeMove(2, "O"));
-      CHECK_FALSE(connectFour.makeMove(2, "X")); 
-    }
+  SUBCASE("Invalid movement - full column") {
+    CHECK(connectFour.makeMove(2, "X"));
+    CHECK(connectFour.makeMove(2, "O"));
+    CHECK(connectFour.makeMove(2, "X"));
+    CHECK(connectFour.makeMove(2, "O"));
+    CHECK(connectFour.makeMove(2, "X"));
+    CHECK(connectFour.makeMove(2, "O"));
+    CHECK_FALSE(connectFour.makeMove(2, "X")); 
+  }
 }
 
 TEST_CASE("Test horizontal and vertical win check") {
@@ -48,38 +48,38 @@ TEST_CASE("Test horizontal and vertical win check") {
 }
 
 TEST_CASE("Test the diagonal win check") {
-    ConnectFour connectFour(6, 7);
+  ConnectFour connectFour(6, 7);
 
-    SUBCASE("Diagonal win (main)") {
-      connectFour.makeMove(1, "X");
-      connectFour.makeMove(2, "O");
-      connectFour.makeMove(2, "X");
-      connectFour.makeMove(3, "O");
-      connectFour.makeMove(3, "X");
-      connectFour.makeMove(4, "O");
-      connectFour.makeMove(3, "X");
-      connectFour.makeMove(4, "O");
-      connectFour.makeMove(5, "X");
-      connectFour.makeMove(4, "O");
-      connectFour.makeMove(4, "X");
-      CHECK(connectFour.checkWin("X"));
-    }
+  SUBCASE("Diagonal win (main)") {
+    connectFour.makeMove(1, "X");
+    connectFour.makeMove(2, "O");
+    connectFour.makeMove(2, "X");
+    connectFour.makeMove(3, "O");
+    connectFour.makeMove(3, "X");
+    connectFour.makeMove(4, "O");
+    connectFour.makeMove(3, "X");
+    connectFour.makeMove(4, "O");
+    connectFour.makeMove(5, "X");
+    connectFour.makeMove(4, "O");
+    connectFour.makeMove(4, "X");
+    CHECK(connectFour.checkWin("X"));
+  }
 
-    ConnectFour connectFour2(6, 7);
-    SUBCASE("Diagonal win (secondary)") {
-      connectFour2.makeMove(5, "X");
-      connectFour2.makeMove(4, "O");
-      connectFour2.makeMove(4, "X");
-      connectFour2.makeMove(3, "O");
-      connectFour2.makeMove(3, "X");
-      connectFour2.makeMove(2, "O");
-      connectFour2.makeMove(3, "X");
-      connectFour2.makeMove(2, "O");
-      connectFour2.makeMove(1, "X");
-      connectFour2.makeMove(2, "O");
-      connectFour2.makeMove(2, "X");
-      CHECK(connectFour2.checkWin("X"));
-    }
+  ConnectFour connectFour2(6, 7);
+  SUBCASE("Diagonal win (secondary)") {
+    connectFour2.makeMove(5, "X");
+    connectFour2.makeMove(4, "O");
+    connectFour2.makeMove(4, "X");
+    connectFour2.makeMove(3, "O");
+    connectFour2.makeMove(3, "X");
+    connectFour2.makeMove(2, "O");
+    connectFour2.makeMove(3, "X");
+    connectFour2.makeMove(2, "O");
+    connectFour2.makeMove(1, "X");
+    connectFour2.makeMove(2, "O");
+    connectFour2.makeMove(2, "X");
+    CHECK(connectFour2.checkWin("X"));
+  }
 }
 
 TEST_CASE("Test draw") {
