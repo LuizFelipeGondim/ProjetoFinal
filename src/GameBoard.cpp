@@ -38,7 +38,10 @@ std::string GameBoard::getPlayerNickName() {
 
   while(true){
     try{
-      std::cin >> playerNickName;
+      if (!(std::cin >> playerNickName)) {
+        throw std::runtime_error("Falha na leitura do jogador.");
+      }
+
       if(!searchPlayer(playerNickName)){
         throw std::invalid_argument("Jogador inválido! Por favor, escolha novamente:");
       }
@@ -152,10 +155,14 @@ void GameBoard::startGame(
         std::cout << "1. 5x6\n";
         std::cout << "2. 6x7\n";
         std::cout << "3. 7x8\n";
-        std::cout << "Digite o número da opção desejada: ";
+        std::cout << "Digite o número da opção desejada:\n";
 
         try{
-          if(std::cin >> choice && choice >= 1 && choice <= 3) {
+          if (!(std::cin >> choice)) {
+            throw std::runtime_error("Falha na leitura do tamanho do tabuleiro.");
+          }
+
+          if(choice >= 1 && choice <= 3) {
             rows = 4 + choice; // 5, 6, 7
             cols = 5 + choice; // 6, 7, 8
             std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
@@ -165,9 +172,11 @@ void GameBoard::startGame(
             throw std::out_of_range("Entrada inválida. Digite um número de 1 a 3!");
           }
 
-        }catch (const std::out_of_range& e) {
+        } catch (const std::out_of_range& e) {
           std::cout << "ERRO:" << e.what() << std::endl << std::endl;
           continue;
+        } catch (const std::runtime_error& e) {
+          throw;
         }
     }
 

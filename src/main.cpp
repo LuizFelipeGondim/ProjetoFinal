@@ -23,7 +23,14 @@ int main() {
         std::string nickName, name;
 
         std::cout << "Informe o apelido e o nome do jogador, respectivamente:" << std::endl;
-        std::cin >> nickName >> name;
+
+        if (!(std::cin >> nickName >> name)) {
+          throw std::runtime_error("Falha na leitura do apelido e nome.");
+        }
+
+        if (std::cin.eof()) {
+          throw std::runtime_error("Falha na leitura do nome.");
+        }
 
         if (gameBoard.searchPlayer(nickName)) {
           throw std::invalid_argument("Jogador existente!");
@@ -37,7 +44,10 @@ int main() {
         std::string nickName;
 
         std::cout << "Informe o apelido do jogador a ser removido:" << std::endl;
-        std::cin >> nickName;
+
+        if (!(std::cin >> nickName)) {
+          throw std::runtime_error("Falha na leitura do apelido.");
+        }
 
         if (!gameBoard.searchPlayer(nickName)) {
           throw std::invalid_argument("Jogador não encontrado!");
@@ -53,15 +63,22 @@ int main() {
 
         while (true) {
           try{
-            std::cin >> orderType;
+            if (!(std::cin >> orderType)) {
+              throw std::runtime_error("Falha na leitura do método de ordenação.");
+            }
+
             orderType = gameBoard.transformToLowerCase(orderType);
 
             if(orderType != "apelido" && orderType != "nome"){
               throw std::invalid_argument("Informe um método de ordenação válido: [Apelido|Nome]");
             }
             else break;
-          }catch (const std::invalid_argument& e) {
+
+          } catch (const std::invalid_argument& e) {
             std::cout << "ERRO: " << e.what() << std::endl;
+
+          } catch (const std::runtime_error& e) {
+            throw;
           }
         }
 
@@ -79,7 +96,10 @@ int main() {
 
         while(true){
           try{
-            std::cin >> game;
+            if (!(std::cin >> game)) {
+              throw std::runtime_error("Falha na leitura do jogo.");
+            }
+
             game = gameBoard.transformToLowerCase(game);
 
             if(game != "reversi" && game != "lig4" && game != "tictactoe"){
@@ -87,8 +107,11 @@ int main() {
             }
             else break;
 
-          }catch (const std::invalid_argument& e) {
+          } catch (const std::invalid_argument& e) {
             std::cout << "ERRO:" << e.what() << std::endl;
+          
+          } catch (const std::runtime_error& e) {
+            throw;
           }
         }
 
@@ -102,10 +125,11 @@ int main() {
         while(true){
           try{
             if(playerOneNickName == playerTwoNickName){
-              throw std::invalid_argument("Jogador inválido!\nPor favor, escolha novamente:");
+              throw std::invalid_argument("Jogador inválido! Por favor, escolha novamente:");
             }
           else break;
-          }catch (const std::invalid_argument& e) {
+          
+          } catch (const std::invalid_argument& e) {
             std::cout << "ERRO:" << e.what() << std::endl;
           }
           playerTwoNickName = gameBoard.getPlayerNickName();
@@ -114,15 +138,20 @@ int main() {
         std::cout << std::endl;
         gameBoard.startGame(game, playerOneNickName, playerTwoNickName);
         
-      } else if (option == "FS") {
+      } else if (option == "FS" || std::cin.eof()) {
         std::cout << "Finalizando o tabuleiro..." << std::endl;
         break;
 
       } else {
         throw std::invalid_argument("Opção inválida!");
       }
-    } catch (const std::exception& e) {
+
+    } catch (const std::invalid_argument& e) {
       std::cout << "ERRO: " << e.what() << std::endl;
+    
+    } catch (const std::runtime_error& e) {
+      std::cout << "ERRO: " << e.what() << std::endl;
+      break;
     }
   }
   
