@@ -27,6 +27,11 @@ class Player {
 
     void setVictories(std::string gameName);
     void setDefeats(std::string gameName);
+
+    #ifdef UNIT_TESTING
+      int getVictories(const std::string& gameName) const { return _victories.at(gameName); };
+      int getDefeats(const std::string& gameName) const { return _defeats.at(gameName); };
+    #endif
 };
 
 #endif

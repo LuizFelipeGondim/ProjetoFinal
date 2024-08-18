@@ -1,26 +1,51 @@
-CC = g++
-CCFLAGS = -std=c++11 -Iinclude
+﻿# Compilador e flags
+CXX = g++
+CXXFLAGS = -std=c++11 -Iinclude
 
+# Diretórios
 SRC_DIR = src
 INC_DIR = include
+TEST_DIR = tests
 OBJ_DIR = obj
 BIN_DIR = bin
 
+# Arquivos fonte e objeto
 SOURCES = $(wildcard $(SRC_DIR)/*.cpp)
-OBJECTS = $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SOURCES))
+OBJECTS = $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(filter-out $(SRC_DIR)/main.cpp,$(SOURCES)))
+MAIN_OBJECT = $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SRC_DIR)/main.cpp)
+TEST_SOURCES = $(wildcard $(TEST_DIR)/*.cpp)
+TEST_OBJECTS = $(patsubst $(TEST_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(TEST_SOURCES))
 EXECUTABLE = $(BIN_DIR)/game
+TEST_EXECUTABLE = $(BIN_DIR)/run_tests
 
+# Regras padrão
 all: $(EXECUTABLE)
 
-$(EXECUTABLE): $(OBJECTS)
+# Regra para compilar o executável
+$(EXECUTABLE): $(OBJECTS) $(MAIN_OBJECT)
 	@mkdir -p $(BIN_DIR)
-	$(CC) $(OBJECTS) -o $@
+	$(CXX) $(OBJECTS) $(MAIN_OBJECT) -o $@
 
+# Regra para compilar arquivos objeto
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.cpp
 	@mkdir -p $(OBJ_DIR)
-	$(CC) $(CCFLAGS) -c $< -o $@
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
+$(OBJ_DIR)/%.o: $(TEST_DIR)/%.cpp
+	@mkdir -p $(OBJ_DIR)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
+
+# Regra para compilar e executar os testes
+test: $(TEST_EXECUTABLE)
+	$(TEST_EXECUTABLE)
+
+$(TEST_EXECUTABLE): $(TEST_OBJECTS) $(OBJECTS)
+	@mkdir -p $(BIN_DIR)
+	$(CXX) $(TEST_OBJECTS) $(OBJECTS) -o $@
+
+# Limpeza
 clean:
 	rm -rf $(OBJ_DIR) $(BIN_DIR)
 
-.PHONY: all clean
+# Regra para remover arquivos compilados
+.PHONY: all clean test
