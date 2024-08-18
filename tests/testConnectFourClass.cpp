@@ -3,20 +3,20 @@
 #include <iostream>
 #include <sstream>
 
-TEST_CASE("Testando movimentos válidos e inválidos no ConnectFour") {
+TEST_CASE("Test valid and invalid movements in ConnectFour") {
     ConnectFour connectFour(6, 7);
 
-    SUBCASE("Movimento válido") {
+    SUBCASE("Valid movement") {
       CHECK(connectFour.makeMove(1, "X")); 
       CHECK(connectFour.makeMove(7, "X"));  
     }
 
-    SUBCASE("Movimento inválido - fora dos limites") {
+    SUBCASE("Invalid movement - out of board") {
       CHECK_FALSE(connectFour.makeMove(0, "X"));
       CHECK_FALSE(connectFour.makeMove(8, "X")); 
     }
 
-    SUBCASE("Movimento inválido - coluna cheia") {
+    SUBCASE("Invalid movement - full column") {
       CHECK(connectFour.makeMove(2, "X"));
       CHECK(connectFour.makeMove(2, "O"));
       CHECK(connectFour.makeMove(2, "X"));
@@ -27,10 +27,10 @@ TEST_CASE("Testando movimentos válidos e inválidos no ConnectFour") {
     }
 }
 
-TEST_CASE("Testando a verificação de vitória na horizontal e vertical no ConnectFour") {
+TEST_CASE("Test horizontal and vertical win check") {
   ConnectFour connectFour(6, 7);
 
-  SUBCASE("Vitória horizontal") {
+  SUBCASE("Horizontal win") {
     connectFour.makeMove(1, "X");
     connectFour.makeMove(2, "X");
     connectFour.makeMove(3, "X");
@@ -38,7 +38,7 @@ TEST_CASE("Testando a verificação de vitória na horizontal e vertical no Conn
     CHECK(connectFour.checkWin("X"));
   }
 
-  SUBCASE("Vitória vertical") {
+  SUBCASE("Vertical win") {
     connectFour.makeMove(5, "O");
     connectFour.makeMove(5, "O");
     connectFour.makeMove(5, "O");
@@ -47,10 +47,10 @@ TEST_CASE("Testando a verificação de vitória na horizontal e vertical no Conn
   }
 }
 
-TEST_CASE("Testando a verificação de vitória na diagonais no ConnectFour") {
+TEST_CASE("Test the diagonal win check") {
     ConnectFour connectFour(6, 7);
 
-    SUBCASE("Vitória diagonal (principal)") {
+    SUBCASE("Diagonal win (main)") {
       connectFour.makeMove(1, "X");
       connectFour.makeMove(2, "O");
       connectFour.makeMove(2, "X");
@@ -66,7 +66,7 @@ TEST_CASE("Testando a verificação de vitória na diagonais no ConnectFour") {
     }
 
     ConnectFour connectFour2(6, 7);
-    SUBCASE("Vitória diagonal (secundária)") {
+    SUBCASE("Diagonal win (secondary)") {
       connectFour2.makeMove(5, "X");
       connectFour2.makeMove(4, "O");
       connectFour2.makeMove(4, "X");
@@ -82,7 +82,7 @@ TEST_CASE("Testando a verificação de vitória na diagonais no ConnectFour") {
     }
 }
 
-TEST_CASE("Testando empate no ConnectFour") {
+TEST_CASE("Test draw") {
   ConnectFour connectFour(5, 6);
   std::string piece1 = "X";
   std::string piece2 = "O";
@@ -128,7 +128,7 @@ TEST_CASE("Test countPossibleWins method") {
     CHECK(oss.str() == expectedOutput);
   }
   
-  SUBCASE("Uma coluna com 3 peças alternadas") {
+  SUBCASE("A column with 3 alternating pieces") {
     ConnectFour connectFour(5, 6);
 
     connectFour.makeMove(1, "X"); 
@@ -147,7 +147,7 @@ TEST_CASE("Test countPossibleWins method") {
     CHECK(oss.str() == expectedOutput);
   }
 
-  SUBCASE("Uma coluna com 3 peças e 1 espaço vazio") {
+  SUBCASE("A column with 3 pieces and 1 empty space") {
     ConnectFour connectFour(6, 7);
 
     connectFour.makeMove(1, "X");
@@ -159,7 +159,7 @@ TEST_CASE("Test countPossibleWins method") {
     CHECK(oss.str() == expectedOutput);
   }
 
-  SUBCASE("Uma diagonal com 3 peças e 1 espaço vazio") {
+  SUBCASE("A diagonal with 3 pieces and 1 empty space") {
     ConnectFour connectFour(6, 7);
 
     connectFour.makeMove(1, "X");

@@ -269,8 +269,6 @@ void ConnectFour::match(Player* player1, Player* player2) {
 		}
 
 		if (isBoardFull()) {
-			countPossibleWins("X");
-			countPossibleWins("O");
 			printBoard();
 			std::cout << "O jogo terminou em empate!\n";
 			break;
