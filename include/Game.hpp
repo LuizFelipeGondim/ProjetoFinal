@@ -14,16 +14,6 @@ class Game {
     int _defaultRows; /**< Número padrão de linhas do tabuleiro. */
     int _defaultCols; /**< Número padrão de colunas do tabuleiro. */
 
-    /**
-     * @brief Imprime o estado atual do tabuleiro.
-     */
-    virtual void printBoard() const;
-
-    /**
-     * @brief Verifica se o tabuleiro está cheio.
-     * @return Verdadeiro se o tabuleiro estiver cheio, falso caso contrário.
-     */
-    virtual bool isBoardFull() const;
 
   public:
     /**
@@ -37,6 +27,17 @@ class Game {
      * @brief Destrutor virtual padrão.
      */
     virtual ~Game() = default;
+    
+    /**
+     * @brief Imprime o estado atual do tabuleiro.
+     */
+    virtual void printBoard() const;
+
+    /**
+     * @brief Verifica se o tabuleiro está cheio.
+     * @return Verdadeiro se o tabuleiro estiver cheio, falso caso contrário.
+     */
+    virtual bool isBoardFull() const;
 
     /**
      * @brief Executa uma partida entre dois jogadores.

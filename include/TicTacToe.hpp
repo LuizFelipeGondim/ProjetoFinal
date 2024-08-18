@@ -8,7 +8,13 @@
  * @brief Classe que representa o jogo Tic Tac Toe (Jogo da Velha).
  */
 class TicTacToe : public Game {
-  private:
+  public:
+    /**
+     * @brief Construtor da classe TicTacToe.
+     * Inicializa um tabuleiro 3x3 para o jogo.
+     */
+    TicTacToe(int rows, int cols);
+    
     /**
      * @brief Verifica se há um vencedor no jogo.
      * @return Verdadeiro se houver um vencedor, falso caso contrário.
@@ -23,13 +29,6 @@ class TicTacToe : public Game {
      * @return Verdadeiro se a jogada for válida, falso caso contrário.
      */
     bool makeMove(int row, int col, const std::string& symbol);
-    
-  public:
-    /**
-     * @brief Construtor da classe TicTacToe.
-     * Inicializa um tabuleiro 3x3 para o jogo.
-     */
-    TicTacToe(int rows, int cols);
 
     /**
      * @brief Executa uma partida de Tic Tac Toe entre dois jogadores.
