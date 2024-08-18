@@ -14,7 +14,9 @@ SOURCES = $(wildcard $(SRC_DIR)/*.cpp)
 OBJECTS = $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(filter-out $(SRC_DIR)/main.cpp,$(SOURCES)))
 MAIN_OBJECT = $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(SRC_DIR)/main.cpp)
 TEST_SOURCES = $(wildcard $(TEST_DIR)/*.cpp)
-TEST_OBJECTS = $(patsubst $(TEST_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(TEST_SOURCES))
+TEST_MAIN_SOURCE = $(TEST_DIR)/testGameBoardClass.cpp
+TEST_MAIN_OBJECT = $(patsubst $(TEST_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(TEST_MAIN_SOURCE))
+TEST_OBJECTS = $(patsubst $(TEST_DIR)/%.cpp,$(OBJ_DIR)/%.o,$(filter-out $(TEST_MAIN_SOURCE),$(TEST_SOURCES)))
 EXECUTABLE = $(BIN_DIR)/game
 TEST_EXECUTABLE = $(BIN_DIR)/run_tests
 
@@ -39,9 +41,9 @@ $(OBJ_DIR)/%.o: $(TEST_DIR)/%.cpp
 test: $(TEST_EXECUTABLE)
 	$(TEST_EXECUTABLE)
 
-$(TEST_EXECUTABLE): $(TEST_OBJECTS) $(OBJECTS)
+$(TEST_EXECUTABLE): $(TEST_MAIN_OBJECT) $(TEST_OBJECTS) $(OBJECTS)
 	@mkdir -p $(BIN_DIR)
-	$(CXX) $(TEST_OBJECTS) $(OBJECTS) -o $@
+	$(CXX) $(TEST_MAIN_OBJECT) $(TEST_OBJECTS) $(OBJECTS) -o $@
 
 # Limpeza
 clean:

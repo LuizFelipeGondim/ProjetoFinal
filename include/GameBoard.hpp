@@ -11,25 +11,32 @@
 class GameBoard {
   private:
     std::vector<Player*> _players;
-    void readPlayersFromFile();
-    void writePlayersToFile();
+
 
   public:
-    static const std::string FILENAME;
-
     GameBoard();
     ~GameBoard();
 
+    static const std::string FILENAME;
+    static std::string transformToLowerCase(std::string word);
+
     bool searchPlayer(std::string nickName) const;
     void listStatistics(std::string orderType) const;
+    size_t getNumberOfPlayers() const;
 
-    void registerPlayer(std::string nickName, std::string name);
     void removePlayer(std::string nickName);
     void startGame(
       std::string game, 
       std::string nickNamePlayer1, 
       std::string nickNamePlayer2
     );
+    void readPlayersFromFile();
+    void writePlayersToFile();
+    std::string getPlayerNickName();
+
+    void registerPlayer(std::string nickName, std::string name);
+
+    void clearPlayers();
 };
 
 #endif

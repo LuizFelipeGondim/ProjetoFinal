@@ -35,5 +35,6 @@
 *.app
 exec
 bin/game
+bin/run_tests
 
 *.txt

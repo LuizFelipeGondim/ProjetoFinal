@@ -18,12 +18,37 @@ GameBoard::~GameBoard() {
   _players.clear();
 }
 
+std::string GameBoard::transformToLowerCase(std::string word) {
+  std::transform(word.begin(), word.end(), word.begin(),
+      [](unsigned char c){ return std::tolower(c); });
+
+  return word;
+}
+
 bool GameBoard::searchPlayer(std::string nickName) const {
   for(Player* player : _players)
     if(player->getNickName() == nickName)
       return true;
   
   return false;
+}
+
+std::string GameBoard::getPlayerNickName() {
+  std::string playerNickName;
+
+  while(true){
+    try{
+      std::cin >> playerNickName;
+      if(!searchPlayer(playerNickName)){
+        throw std::invalid_argument("Jogador inválido! Por favor, escolha novamente:");
+      }
+      else break;
+    }catch (const std::invalid_argument& e) {
+      std::cout << "ERRO: " << e.what() << std::endl;
+    }
+  }
+
+  return playerNickName;
 }
 
 void GameBoard::listStatistics(std::string orderType) const {
@@ -36,20 +61,26 @@ void GameBoard::listStatistics(std::string orderType) const {
 
   std::vector<Player*> sortedPlayers = _players;
 
-  if(orderType == "A") {
+  if(orderType == "apelido") {
     std::sort(
       sortedPlayers.begin(), 
       sortedPlayers.end(), 
       [](const Player* a, const Player* b) {
-          return a->getNickName() < b->getNickName();
+        std::string aNickName = transformToLowerCase(a->getNickName());
+        std::string bNickName = transformToLowerCase(b->getNickName());
+
+        return aNickName < bNickName;
       });
     
-  } else if (orderType == "N") {
+  } else if (orderType == "nome") {
     std::sort(
       sortedPlayers.begin(), 
       sortedPlayers.end(), 
       [](const Player* a, const Player* b) {
-          return a->getName() < b->getName();
+        std::string aName = transformToLowerCase(a->getName());
+        std::string bName = transformToLowerCase(b->getName());
+
+        return aName < bName;
       });
   }
 
@@ -57,6 +88,10 @@ void GameBoard::listStatistics(std::string orderType) const {
     player->showStatistics();
 
   std::cout << std::endl;
+}
+
+size_t GameBoard::getNumberOfPlayers() const {
+  return _players.size();
 }
 
 void GameBoard::registerPlayer(std::string nickName, std::string name) {
@@ -81,8 +116,8 @@ void GameBoard::startGame(
   std::string nickNamePlayer1, 
   std::string nickNamePlayer2
 ) {
-  Player* player1;
-  Player* player2;
+  Player* player1 = nullptr;
+  Player* player2 = nullptr;
 
   for(Player* player : _players) {
     if (player->getNickName() == nickNamePlayer1) {
@@ -155,6 +190,7 @@ std::ifstream infile(FILENAME);
   }
 
   Player* player = nullptr;
+  
   while (true) {
     player = new Player();
     player->readPlayers(infile);
@@ -183,4 +219,13 @@ void GameBoard::writePlayersToFile() {
   }
 
   outfile.close();
+}
+
+void GameBoard::clearPlayers() {
+    for (Player* player : _players) {
+      delete player;
+    }
+    _players.clear();
+    std::ofstream outfile(FILENAME, std::ios::trunc); 
+    outfile.close();
 }

@@ -1,147 +1,130 @@
 #include "GameBoard.hpp"
-
 #include <iostream>
-#include <string>
-#include <algorithm>
-#include <vector>
 
 const std::string GameBoard::FILENAME = "players.txt";
 
-int main(){
+int main() {
   GameBoard gameBoard;
   std::string option;
 
-  while((std::cin >> option) && option != "FS"){
+  while(true) {
+    std::cout << std::endl;
+    std::cout << "Escolha uma opção para interagir com o tabuleiro: " << std::endl;
+    std::cout << "CJ - Cadastrar jogador" << std::endl;
+    std::cout << "RJ - Remover jogador" << std::endl;
+    std::cout << "LJ - Listar jogadores" << std::endl;
+    std::cout << "EP - Entrar na partida" << std::endl;
+    std::cout << "FS - Sair do tabuleiro" << std::endl << std::endl;
+    std::cin >> option;
 
-    if (option == "CJ"){
-      bool playerExists;
-      std::string nickName, name;
+    try {
+      if (option == "CJ") {
 
-      std::cin >> nickName >> name;
+        std::string nickName, name;
 
-      playerExists = gameBoard.searchPlayer(nickName);
+        std::cout << "Informe o apelido e o nome do jogador, respectivamente:" << std::endl;
+        std::cin >> nickName >> name;
 
-      try{
-        if(!playerExists){
-          gameBoard.registerPlayer(nickName, name);
-          std::cout << "Jogador " << nickName << " cadastrado com sucesso!" << std::endl;
-          std::cout << std::endl;
-        }
-        else {
+        if (gameBoard.searchPlayer(nickName)) {
           throw std::invalid_argument("Jogador existente!");
         }
 
-      }catch (const std::invalid_argument& e) {
-        std::cout << "ERRO:" << e.what() << std::endl << std::endl;
-        continue;
-      }
+        gameBoard.registerPlayer(nickName, name);
+        std::cout << "Jogador " << nickName << " cadastrado com sucesso!" << std::endl;
 
-    }else if (option == "RJ"){
-      bool playerExists;
-      std::string nickName;
-      std::cin >> nickName;
+      } else if (option == "RJ") {
 
-      playerExists = gameBoard.searchPlayer(nickName);
-      
-      try{
-        if(playerExists){
-          gameBoard.removePlayer(nickName);
-          std::cout << "Jogador " << nickName << " removido com sucesso!" << std::endl;
-        }
-        else {
-          throw std::invalid_argument("Jogador Existente!");
+        std::string nickName;
+
+        std::cout << "Informe o apelido do jogador a ser removido:" << std::endl;
+        std::cin >> nickName;
+
+        if (!gameBoard.searchPlayer(nickName)) {
+          throw std::invalid_argument("Jogador não encontrado!");
         }
 
-      }catch (const std::invalid_argument& e) {
-        std::cout << "ERRO:" << e.what() << std::endl << std::endl;
-        continue;
-      }
+        gameBoard.removePlayer(nickName);
+        std::cout << "Jogador " << nickName << " removido com sucesso!" << std::endl;
 
-    }else if (option == "LJ"){
-      std::string orderType;
-      std::cout << "Informe um método ordenação: [A|N]" << std::endl;
-      std::cin >> orderType;
+      } else if (option == "LJ") {
 
-      while(1){
-        try{
-          if(orderType != "A" && orderType != "N"){
-            throw std::invalid_argument("Informe um método de ordenação válido: [A|N]");
+        std::string orderType;
+        std::cout << "Informe um método de ordenação: [Apelido|Nome]" << std::endl;
+
+        while (true) {
+          try{
+            std::cin >> orderType;
+            orderType = gameBoard.transformToLowerCase(orderType);
+
+            if(orderType != "apelido" && orderType != "nome"){
+              throw std::invalid_argument("Informe um método de ordenação válido: [Apelido|Nome]");
+            }
+            else break;
+          }catch (const std::invalid_argument& e) {
+            std::cout << "ERRO: " << e.what() << std::endl;
           }
+        }
+
+        gameBoard.listStatistics(orderType);
+
+      } else if (option == "EP") {
+
+        std::string game, playerOneNickName, playerTwoNickName;
+        
+        if (gameBoard.getNumberOfPlayers() < 2) {
+          throw std::runtime_error("Número insuficiente de jogadores. Pelo menos 2 jogadores são necessários.");
+        }
+
+        std::cout << "Informe o jogo: [Reversi|Lig4|TicTacToe]" << std::endl;
+
+        while(true){
+          try{
+            std::cin >> game;
+            game = gameBoard.transformToLowerCase(game);
+
+            if(game != "reversi" && game != "lig4" && game != "tictactoe"){
+              throw std::invalid_argument("Informe um jogo válido: [Reversi|Lig4|TicTacToe]");
+            }
+            else break;
+
+          }catch (const std::invalid_argument& e) {
+            std::cout << "ERRO:" << e.what() << std::endl;
+          }
+        }
+
+        std::cout << "Informe o apelido do primeiro jogador:" << std::endl;
+        playerOneNickName = gameBoard.getPlayerNickName();
+        
+
+        std::cout << "Informe o apelido do segundo jogador:" << std::endl;
+        playerTwoNickName = gameBoard.getPlayerNickName();
+
+        while(true){
+          try{
+            if(playerOneNickName == playerTwoNickName){
+              throw std::invalid_argument("Jogador inválido!\nPor favor, escolha novamente:");
+            }
           else break;
-        }catch (const std::invalid_argument& e) {
-          std::cout << "ERRO:" << e.what() << std::endl << std::endl;
-        }
-        std::cin >> orderType; 
-      }
-
-      gameBoard.listStatistics(orderType);
-
-    } else if (option == "EP"){
-      std::string game, nickNamePlayer1, nickNamePlayer2;
-      bool playerExists;
-
-      std::cout << "Informe o jogo: [Reversi|Lig4|TicTacToe]" << std::endl;
-      std::cin >> game;
-
-      std::transform(game.begin(), game.end(), game.begin(),
-        [](unsigned char c){ return std::tolower(c); });
-
-      while(1){
-        try{
-          if(game != "reversi" && game != "lig4" && game != "tictactoe"){
-            throw std::invalid_argument("Informe um jogo válido: [Reversi|Lig4]");
+          }catch (const std::invalid_argument& e) {
+            std::cout << "ERRO:" << e.what() << std::endl;
           }
-        else break;
-        }catch (const std::invalid_argument& e) {
-          std::cout << "ERRO:" << e.what() << std::endl << std::endl;
+          playerTwoNickName = gameBoard.getPlayerNickName();
         }
-        std::cin >> game;
-        std::transform(game.begin(), game.end(), game.begin(),
-          [](unsigned char c){ return std::tolower(c); }); 
+
+        std::cout << std::endl;
+        gameBoard.startGame(game, playerOneNickName, playerTwoNickName);
+        
+      } else if (option == "FS") {
+        std::cout << "Finalizando o tabuleiro..." << std::endl;
+        break;
+
+      } else {
+        throw std::invalid_argument("Opção inválida!");
       }
-
-      std::cout << "Informe o apelido do primeiro jogador:" << std::endl;
-      std::cin >> nickNamePlayer1;
-      playerExists = gameBoard.searchPlayer(nickNamePlayer1);
-
-      while(1){
-        try{
-          if(!playerExists){
-            throw std::invalid_argument("Jogador inválido!\nPor favor, escolha novamente:");
-          }
-        else break;
-        }catch (const std::invalid_argument& e) {
-          std::cout << "ERRO:" << e.what() << std::endl << std::endl;
-        }
-        std::cin >> nickNamePlayer1;
-        playerExists = gameBoard.searchPlayer(nickNamePlayer1);
-      }
-
-      std::cout << "Informe o apelido do segundo jogador:" << std::endl;
-      std::cin >> nickNamePlayer2;
-      playerExists = gameBoard.searchPlayer(nickNamePlayer2);
-
-      while(1){
-        try{
-          if(!playerExists || nickNamePlayer1 == nickNamePlayer2){
-            throw std::invalid_argument("Jogador inválido!\nPor favor, escolha novamente:");
-          }
-        else break;
-        }catch (const std::invalid_argument& e) {
-          std::cout << "ERRO:" << e.what() << std::endl << std::endl;
-        }
-        std::cin >> nickNamePlayer2;
-        playerExists = gameBoard.searchPlayer(nickNamePlayer2);
-      }
-
-      std::cout << std::endl;
-      gameBoard.startGame(game, nickNamePlayer1, nickNamePlayer2);
-
-    } else {
-      std::cout << "Opção inválida!" << std::endl;
-      std::cout << std::endl;
+    } catch (const std::exception& e) {
+      std::cout << "ERRO: " << e.what() << std::endl;
     }
   }
-
+  
   return 0;
 }
