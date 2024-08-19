@@ -1,9 +1,17 @@
+/**
+ * @file testReversiClass.cpp
+ * @brief Testes para a classe Reversi utilizando a biblioteca doctest.
+ */
+
 #include "doctest.h"
 #include "Reversi.hpp"
 #include "Player.hpp"
 #include <sstream>
 #include <iostream>
 
+/**
+ * @brief Testa o método construtor da classe Reversi.
+ */
 TEST_CASE("Test the construction and initial state of the board") {
   Reversi game(8, 8);
 
@@ -23,6 +31,9 @@ TEST_CASE("Test the construction and initial state of the board") {
   }
 }
 
+/**
+ * @brief Testa o método thereIsNearby da classe Reversi.
+ */
 TEST_CASE("Test thereIsNearby method") {
   Reversi game(8, 8);
 
@@ -35,6 +46,9 @@ TEST_CASE("Test thereIsNearby method") {
   CHECK(game.thereIsNearby(7, 7, "X") == false);
 }
 
+/**
+ * @brief Testa o método thereIsConnection da classe Reversi.
+ */
 TEST_CASE("Test thereIsConnection method") {
   Reversi game(8, 8);
 
@@ -45,6 +59,9 @@ TEST_CASE("Test thereIsConnection method") {
   CHECK(game.thereIsConnection(0, 0, "X", "O") == false);
 }
 
+/**
+ * @brief Testa o método makeMove da classe Reversi.
+ */
 TEST_CASE("Test makeMove method)") {
   Reversi game(8, 8);
   
@@ -60,6 +77,9 @@ TEST_CASE("Test makeMove method)") {
   CHECK_THROWS_AS(game.makeMove(8, 8, "O", "X"), std::out_of_range);
 }
 
+/**
+ * @brief Testa o método piecesCounter da classe Reversi.
+ */
 TEST_CASE("Test piecesCounter method") {
   std::string expectedOutput;
 
@@ -86,6 +106,9 @@ TEST_CASE("Test piecesCounter method") {
 
 }
 
+/**
+ * @brief Testa o método isBoardFull da classe Reversi.
+ */
 TEST_CASE("Test isBoardFull method") {
   Reversi game(8, 8);
   
@@ -98,10 +121,20 @@ TEST_CASE("Test isBoardFull method") {
     }
   }
 
+  // Redireciona as saidas de piecesCounter para que não apareça no console.
+  std::stringstream buffer;
+  std::streambuf* oldCoutBuffer = std::cout.rdbuf(buffer.rdbuf());
+
   game.piecesCounter();
+
+  std::cout.rdbuf(oldCoutBuffer);
+
   CHECK(game.isBoardFull() == true);
 }
 
+/**
+ * @brief Testa o método isAnyPossiblePlay da classe Reversi.
+ */
 TEST_CASE("Test isAnyPossiblePlay method") {
   Reversi game(8, 8);
 

@@ -1,5 +1,5 @@
 /**
- * @file GameBoardTests.cpp
+ * @file testGameBoardClass.cpp
  * @brief Testes para a classe GameBoard utilizando a biblioteca doctest.
  */
 
@@ -113,29 +113,18 @@ TEST_CASE("Test getPlayerNickName method") {
   }
 
   /**
-   * @brief Testa entrada inválida e repetição.
-   */
-  SUBCASE("Invalid input and repeat") {
-
-    std::istringstream input("sadwec\nfulano\n"); 
-    std::streambuf* oldCoutBuffer = std::cout.rdbuf(); 
-    std::streambuf* oldCinBuffer = std::cin.rdbuf(input.rdbuf()); 
-
-    std::string result = gb.getPlayerNickName();
-    CHECK(result == "fulano");
-
-    std::cout.rdbuf(oldCoutBuffer);
-    std::cin.rdbuf(oldCinBuffer); 
-  }
-
-  /**
    * @brief Testa entrada inválida e repetição longa.
    */
+
   SUBCASE("Invalid input and long repeat") {
 
-    std::istringstream input("teste1\nteste2\nteste3\nbeltrano\n"); 
-    std::streambuf* oldCoutBuffer = std::cout.rdbuf();  
-    std::streambuf* oldCinBuffer = std::cin.rdbuf(input.rdbuf());  
+    std::istringstream input("teste1\nteste2\nteste3\nbeltrano\n");
+    std::streambuf* oldCinBuffer = std::cin.rdbuf(input.rdbuf());
+
+    // Redireciona as saidas de erro para um buffer temporário para que não apareça 
+    // no console.
+    std::stringstream buffer;
+    std::streambuf* oldCoutBuffer = std::cout.rdbuf(buffer.rdbuf());
 
     std::string result = gb.getPlayerNickName();
     CHECK(result == "beltrano");

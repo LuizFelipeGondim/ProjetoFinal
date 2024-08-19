@@ -1,5 +1,5 @@
 ﻿/**
- * @file PlayerTests.cpp
+ * @file testPlayerClass.cpp
  * @brief Testes para a classe Player utilizando a biblioteca doctest.
  */
 

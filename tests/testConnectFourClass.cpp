@@ -1,5 +1,5 @@
 /**
- * @file ConnectFourTests.cpp
+ * @file testConnectFourClass.cpp
  * @brief Testes para a classe ConnectFour utilizando a biblioteca doctest.
  */
 

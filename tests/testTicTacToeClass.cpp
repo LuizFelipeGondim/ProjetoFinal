@@ -1,5 +1,5 @@
 /**
- * @file TicTacToeTests.cpp
+ * @file testTicTacToeClass.cpp
  * @brief Testes para a classe TicTacToe utilizando a biblioteca doctest.
  */
 
