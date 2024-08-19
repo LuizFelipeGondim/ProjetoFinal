@@ -2,7 +2,6 @@
 #define TICTACTOE_HPP
 
 #include "Game.hpp"
-#include "Player.hpp"
 
 /**
  * @brief Classe que representa o jogo Tic Tac Toe (Jogo da Velha).

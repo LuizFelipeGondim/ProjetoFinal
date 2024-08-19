@@ -22,6 +22,7 @@ Game::Game(int rows, int cols) : _defaultRows(rows), _defaultCols(cols) {
  * linhas e colunas com os valores correspondentes em cada célula.
  */
 void Game::printBoard() const {
+    std::cout << std::endl;
     std::cout << "    ";
     for (int col = 1; col <= _defaultCols; ++col) {
         if (col > 1) {

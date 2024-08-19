@@ -1,4 +1,4 @@
-ifndef GAMEBOARD_H
+#ifndef GAMEBOARD_H
 #define GAMEBOARD_H
 
 #include "Player.hpp"

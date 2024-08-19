@@ -224,4 +224,24 @@ TEST_CASE("Test countPossibleWins method") {
 
     connectFour.countPossibleWins("X");
     expectedOutput = "\nPossíveis formas de ganhar para X: 0\n";
-    CHECK(oss.str() == expectedOutpu
+    CHECK(oss.str() == expectedOutput);
+
+    oss.str("");
+    oss.clear();
+
+    connectFour.countPossibleWins("O");
+    expectedOutput = "\nPossíveis formas de ganhar para O: 0\n";
+    CHECK(oss.str() == expectedOutput);
+  }
+
+  std::cout.rdbuf(oldCoutBuffer);
+}
+
+/*TEST_CASE("Testando a função match no ConnectFour") {
+  Player player1("Player1", "Name1");
+  Player player2("Player2", "Name2");
+  ConnectFour connectFour(6, 7);
+  SUBCASE("Match termina sem erro") {
+    CHECK_NOTHROW(connectFour.match(&player1, &player2));
+  }
+}*/

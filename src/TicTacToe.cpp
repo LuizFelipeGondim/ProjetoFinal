@@ -67,6 +67,8 @@ void TicTacToe::match(Player* player1, Player* player2) {
   while (!isBoardFull() && !checkWin()) {
     printBoard();
     int row, col;
+
+    std::cout << std::endl;
     std::cout << currentPlayer << " (" << currentPiece << "), faça sua jogada (linha e coluna): ";
     std::cin >> row >> col;
     --row; // Ajusta para índice baseado em 0
@@ -75,6 +77,8 @@ void TicTacToe::match(Player* player1, Player* player2) {
     if (makeMove(row, col, currentPiece)) {
       if (checkWin()) {
         printBoard();
+
+        std::cout << std::endl;
         std::cout << currentPlayer << " venceu!" << std::endl;
         std::cout << std::endl;
 

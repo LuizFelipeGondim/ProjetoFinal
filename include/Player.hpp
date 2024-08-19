@@ -123,6 +123,3 @@ class Player {
 };
 
 #endif
-
-
-#endif
