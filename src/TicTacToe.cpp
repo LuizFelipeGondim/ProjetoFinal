@@ -68,7 +68,7 @@ void TicTacToe::match(Player* player1, Player* player2) {
     printBoard();
     int row, col;
 
-    std::cout << std::endl;
+    std::cout << "---------------" <<std::endl;
     std::cout << currentPlayer << " (" << currentPiece << "), faça sua jogada (linha e coluna): ";
     std::cin >> row >> col;
     --row; // Ajusta para índice baseado em 0
@@ -78,8 +78,8 @@ void TicTacToe::match(Player* player1, Player* player2) {
       if (checkWin()) {
         printBoard();
 
-        std::cout << std::endl;
-        std::cout << currentPlayer << " venceu!" << std::endl;
+        std::cout << "---------------" <<std::endl;
+        std::cout << "Parabéns " << currentPlayer << "! Você venceu!" << std::endl;
         std::cout << std::endl;
 
         if (currentPlayer == nickNamePlayer1) {
@@ -99,8 +99,9 @@ void TicTacToe::match(Player* player1, Player* player2) {
     }
   }
 
-  printBoard();
   if (isBoardFull() && !checkWin()) {
+    printBoard();
+    std::cout << "---------------" <<std::endl;
     std::cout << "O jogo terminou em empate!" << std::endl;
     std::cout << std::endl;
   }

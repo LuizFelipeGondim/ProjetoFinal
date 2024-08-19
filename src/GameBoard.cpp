@@ -241,7 +241,6 @@ void GameBoard::startGame(
 
     ConnectFour lig4(rows, cols);
 
-    std::cout << std::endl;
     lig4.match(player1, player2);
   }
 

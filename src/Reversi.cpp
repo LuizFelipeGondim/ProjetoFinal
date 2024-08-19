@@ -497,7 +497,7 @@ void Reversi::match(Player* player1, Player* player2) {
   piecesCounter();
 
   while(1) {
-    std::cout << "Vez de " << currentPlayer << " jogar(" << turn << "):" << std::endl << std::endl;
+    std::cout << currentPlayer << " (" << turn << "), faça sua jogada (linha e coluna):" << std::endl << std::endl;
     std::cin >> row;
 
     if(std::cin.fail()) {
