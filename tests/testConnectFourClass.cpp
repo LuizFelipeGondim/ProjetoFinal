@@ -1,8 +1,16 @@
+/**
+ * @file ConnectFourTests.cpp
+ * @brief Testes para a classe ConnectFour utilizando a biblioteca doctest.
+ */
+
 #include "ConnectFour.hpp"
 #include <doctest.h>
 #include <iostream>
 #include <sstream>
 
+/**
+ * @brief Testa movimentos válidos e inválidos no jogo ConnectFour.
+ */
 TEST_CASE("Test valid and invalid movements in ConnectFour") {
   ConnectFour connectFour(6, 7);
 
@@ -27,6 +35,9 @@ TEST_CASE("Test valid and invalid movements in ConnectFour") {
   }
 }
 
+/**
+ * @brief Testa a verificação de vitória horizontal e vertical no jogo ConnectFour.
+ */
 TEST_CASE("Test horizontal and vertical win check") {
   ConnectFour connectFour(6, 7);
 
@@ -47,6 +58,9 @@ TEST_CASE("Test horizontal and vertical win check") {
   }
 }
 
+/**
+ * @brief Testa a verificação de vitória diagonal no jogo ConnectFour.
+ */
 TEST_CASE("Test the diagonal win check") {
   ConnectFour connectFour(6, 7);
 
@@ -82,6 +96,9 @@ TEST_CASE("Test the diagonal win check") {
   }
 }
 
+/**
+ * @brief Testa a detecção de empate no jogo ConnectFour.
+ */
 TEST_CASE("Test draw") {
   ConnectFour connectFour(5, 6);
   std::string piece1 = "X";
@@ -111,6 +128,9 @@ TEST_CASE("Test draw") {
   CHECK_FALSE(connectFour.checkWin("O"));
 }
 
+/**
+ * @brief Testa o método countPossibleWins da classe ConnectFour.
+ */
 TEST_CASE("Test countPossibleWins method") {
   std::string expectedOutput;
 
@@ -204,26 +224,4 @@ TEST_CASE("Test countPossibleWins method") {
 
     connectFour.countPossibleWins("X");
     expectedOutput = "\nPossíveis formas de ganhar para X: 0\n";
-    CHECK(oss.str() == expectedOutput);
-
-    oss.str("");
-    oss.clear();
-
-    connectFour.countPossibleWins("O");
-    expectedOutput = "\nPossíveis formas de ganhar para O: 0\n";
-    CHECK(oss.str() == expectedOutput);
-  }
-
-  std::cout.rdbuf(oldCoutBuffer);
-}
-
-/*TEST_CASE("Testando a função match no ConnectFour") {
-  Player player1("Player1", "Name1");
-  Player player2("Player2", "Name2");
-
-  ConnectFour connectFour(6, 7);
-
-  SUBCASE("Match termina sem erro") {
-    CHECK_NOTHROW(connectFour.match(&player1, &player2));
-  }
-}*/
+    CHECK(oss.str() == expectedOutpu

@@ -1,12 +1,26 @@
+/**
+ * @file GameBoardTests.cpp
+ * @brief Testes para a classe GameBoard utilizando a biblioteca doctest.
+ */
+
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include <doctest.h>
 #include "GameBoard.hpp"
 #include "Player.hpp"
 
+/** 
+ * @brief Nome do arquivo para testes com jogadores.
+ */
 const std::string GameBoard::FILENAME = "testPlayers.txt";
 
+/**
+ * @brief Testa a classe GameBoard e seus métodos principais.
+ */
 TEST_CASE("Testing GameBoard class") {
 
+  /**
+   * @brief Testa o método transformToLowerCase da classe GameBoard.
+   */
   SUBCASE("Test transformToLowerCase method") {
     GameBoard gb;
 
@@ -19,6 +33,9 @@ TEST_CASE("Testing GameBoard class") {
     CHECK(gb.transformToLowerCase("") == "");
   }
 
+  /**
+   * @brief Testa o registro e a pesquisa de jogadores.
+   */
   SUBCASE("Test player registration and search") {
     GameBoard gb;
     gb.clearPlayers();
@@ -31,6 +48,9 @@ TEST_CASE("Testing GameBoard class") {
     CHECK(gb.searchPlayer("Luiz") == false);
   }
 
+  /**
+   * @brief Testa o método removePlayer da classe GameBoard.
+   */
   SUBCASE("Test removePlayer method") {
     GameBoard gb;
     gb.clearPlayers();
@@ -46,6 +66,9 @@ TEST_CASE("Testing GameBoard class") {
     CHECK(gb.searchPlayer("beltrano") == false);
   }
 
+  /**
+   * @brief Testa o método getNumberOfPlayers da classe GameBoard.
+   */
   SUBCASE("Test getNumberOfPlayers method") {
     GameBoard gb;
     gb.clearPlayers();
@@ -63,6 +86,9 @@ TEST_CASE("Testing GameBoard class") {
   }
 }
 
+/**
+ * @brief Testa o método getPlayerNickName da classe GameBoard.
+ */
 TEST_CASE("Test getPlayerNickName method") {
   GameBoard gb;
   gb.clearPlayers();
@@ -70,6 +96,9 @@ TEST_CASE("Test getPlayerNickName method") {
   gb.registerPlayer("fulano", "silva");
   gb.registerPlayer("beltrano", "gomes");
 
+  /**
+   * @brief Testa a entrada válida de um jogador existente.
+   */
   SUBCASE("Valid input from an existing player") {
 
     std::istringstream input("fulano\n"); 
@@ -83,6 +112,9 @@ TEST_CASE("Test getPlayerNickName method") {
     std::cin.rdbuf(oldCinBuffer);
   }
 
+  /**
+   * @brief Testa entrada inválida e repetição.
+   */
   SUBCASE("Invalid input and repeat") {
 
     std::istringstream input("sadwec\nfulano\n"); 
@@ -96,6 +128,9 @@ TEST_CASE("Test getPlayerNickName method") {
     std::cin.rdbuf(oldCinBuffer); 
   }
 
+  /**
+   * @brief Testa entrada inválida e repetição longa.
+   */
   SUBCASE("Invalid input and long repeat") {
 
     std::istringstream input("teste1\nteste2\nteste3\nbeltrano\n"); 
@@ -110,8 +145,14 @@ TEST_CASE("Test getPlayerNickName method") {
   }
 }
 
+/**
+ * @brief Testa o método listStatistics da classe GameBoard.
+ */
 TEST_CASE("Test listStatistics method") {
 
+  /**
+   * @brief Testa listStatistics com ordenação por apelido.
+   */
   SUBCASE("Test listStatistics with sorting by nickname") {
     GameBoard gb;
     gb.clearPlayers();
@@ -120,12 +161,10 @@ TEST_CASE("Test listStatistics method") {
     gb.registerPlayer("beltrano", "trindade");
 
     std::ostringstream oss;
-    //Substitui buffer de saída do cout pelo de oss
     std::streambuf* oldCoutBuffer = std::cout.rdbuf(oss.rdbuf());
 
     gb.listStatistics("apelido");
 
-    //Restauracao do buffer de saida do cout
     std::cout.rdbuf(oldCoutBuffer);
 
     std::string expectedOutput = 
@@ -142,9 +181,11 @@ TEST_CASE("Test listStatistics method") {
       "\n";
 
     CHECK(oss.str() == expectedOutput);
-
   }
 
+  /**
+   * @brief Testa listStatistics com ordenação por nome.
+   */
   SUBCASE("Test listStatistics with sorting by name") {
     GameBoard gb;
     gb.clearPlayers();
@@ -153,12 +194,10 @@ TEST_CASE("Test listStatistics method") {
     gb.registerPlayer("beltrano", "trindade");
 
     std::ostringstream oss;
-    //Substitui buffer de saída do cout pelo de oss
     std::streambuf* oldCoutBuffer = std::cout.rdbuf(oss.rdbuf());
 
     gb.listStatistics("nome");
 
-    //Restauracao do buffer de saida do cout
     std::cout.rdbuf(oldCoutBuffer);
 
     std::string expectedOutput = 
@@ -175,10 +214,12 @@ TEST_CASE("Test listStatistics method") {
       "\n";
 
     CHECK(oss.str() == expectedOutput);
-
   }
 }
 
+/**
+ * @brief Testa o método writePlayersToFile da classe GameBoard.
+ */
 TEST_CASE("Test writePlayersToFile method") {
     GameBoard gb;
     gb.clearPlayers();
@@ -206,6 +247,9 @@ TEST_CASE("Test writePlayersToFile method") {
     std::remove(gb.FILENAME.c_str());
 }
 
+/**
+ * @brief Testa o método readPlayersFromFile da classe GameBoard.
+ */
 TEST_CASE("Test readPlayersFromFile method") {
     GameBoard gb;
     gb.clearPlayers();
@@ -221,17 +265,19 @@ TEST_CASE("Test readPlayersFromFile method") {
 
     std::remove(gb.FILENAME.c_str());
 }
-  /*SUBCASE("Testa início de jogo") {
-    GameBoard gb;
-    gb.clearPlayers();
 
-    gb.registerPlayer("Player1", "Name1");
-    gb.registerPlayer("Player2", "Name2");
+/* 
+SUBCASE("Testa início de jogo") {
+  GameBoard gb;
+  gb.clearPlayers();
 
-    // This would require real implementations of Reversi, TicTacToe, and ConnectFour for a full test.
-    // For now, we'll just ensure that the function doesn't crash.
-    CHECK_NOTHROW(gb.startGame("reversi", "Player1", "Player2"));
-    CHECK_NOTHROW(gb.startGame("tictactoe", "Player1", "Player2"));
-    CHECK_NOTHROW(gb.startGame("connectfour", "Player1", "Player2"));
-  }*/
+  gb.registerPlayer("Player1", "Name1");
+  gb.registerPlayer("Player2", "Name2");
 
+  // Isto exigiria implementações reais de Reversi, TicTacToe e ConnectFour para um teste completo.
+  // Por enquanto, apenas garantimos que a função não falhe.
+  CHECK_NOTHROW(gb.startGame("reversi", "Player1", "Player2"));
+  CHECK_NOTHROW(gb.startGame("tictactoe", "Player1", "Player2"));
+  CHECK_NOTHROW(gb.startGame("connectfour", "Player1", "Player2"));
+}
+*/

@@ -1,4 +1,9 @@
-﻿#include "doctest.h"
+﻿/**
+ * @file PlayerTests.cpp
+ * @brief Testes para a classe Player utilizando a biblioteca doctest.
+ */
+
+#include "doctest.h"
 
 #include "Player.hpp"
 #include "GameBoard.hpp"
@@ -6,23 +11,32 @@
 #include <sstream>
 #include <fstream>
 
+/**
+ * @brief Testa a classe Player e seus métodos principais.
+ */
 TEST_CASE("Testing Player class") {
   Player player("fulano1", "John");
 
+  /**
+   * @brief Testa o construtor da classe Player.
+   */
   SUBCASE("Test constructor") {
     CHECK(player.getNickName() == "fulano1");
     CHECK(player.getName() == "John");
   }
 
+  /**
+   * @brief Testa as estatísticas iniciais do jogador.
+   */
   SUBCASE("Test initial statistics") {
 
     std::ostringstream oss;
-    //Substitui buffer de saída do cout pelo de oss
+    // Substitui o buffer de saída do cout pelo buffer de oss
     std::streambuf* oldCoutBuffer = std::cout.rdbuf(oss.rdbuf());
 
     player.showStatistics();
 
-    //Restauracao do buffer de saida do cout
+    // Restaura o buffer de saída do cout
     std::cout.rdbuf(oldCoutBuffer);
 
     std::string expectedOutput = 
@@ -35,6 +49,9 @@ TEST_CASE("Testing Player class") {
     CHECK(oss.str() == expectedOutput);
   }
 
+  /**
+   * @brief Testa os métodos setVictories e setDefeats.
+   */
   SUBCASE("Test setVictories and setDefeats") {
     player.setVictories("reversi");
     player.setVictories("connectFour");
@@ -45,12 +62,12 @@ TEST_CASE("Testing Player class") {
     player.setDefeats("ticTacToe");
 
     std::ostringstream oss;
-    //Substitui buffer de saída do cout pelo de oss
+    // Substitui o buffer de saída do cout pelo buffer de oss
     std::streambuf* oldCoutBuffer = std::cout.rdbuf(oss.rdbuf());
 
     player.showStatistics();
 
-    //Restauracao do buffer de saida do cout
+    // Restaura o buffer de saída do cout
     std::cout.rdbuf(oldCoutBuffer);
 
     std::string expectedOutput = 
@@ -63,6 +80,9 @@ TEST_CASE("Testing Player class") {
     CHECK(oss.str() == expectedOutput);
   }
 
+  /**
+   * @brief Testa os métodos readPlayers e writePlayers.
+   */
   SUBCASE("Test readPlayers and writePlayers") {
     // Cria um arquivo temporário para teste
     std::ofstream outFile("testPlayerData.txt");

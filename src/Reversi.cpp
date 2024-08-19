@@ -13,10 +13,11 @@
 /**
  * @brief Construtor da classe Reversi.
  * 
+ * Inicializa o tabuleiro com as peças iniciais do jogo Reversi.
+ * 
  * @param rows Número de linhas do tabuleiro.
  * @param cols Número de colunas do tabuleiro.
  */
-
 Reversi::Reversi(int rows, int cols) : Game(rows, cols) {
   _board[_defaultRows/2 - 1][_defaultCols/2 - 1] = "X";
   _board[_defaultRows/2][_defaultCols/2 - 1] = "O";
@@ -32,9 +33,7 @@ Reversi::Reversi(int rows, int cols) : Game(rows, cols) {
  * @param watching Peça do outro jogador.
  * @return true se há uma peça do oponente adjacente, false caso contrário.
  */
-
 bool Reversi::thereIsNearby(int rows, int cols, std::string watching) {
-
   bool top = (rows > 0);
   bool bottom = (rows + 1 < _defaultRows);
   bool left = (cols > 0);
@@ -65,7 +64,6 @@ bool Reversi::thereIsNearby(int rows, int cols, std::string watching) {
  * @param watching Peça do outro jogador.
  * @return true se há conexão, false caso contrário.
  */
-
 bool Reversi::thereIsConnection(int rows, int cols, std::string turn, std::string watching) {
   bool playable = false;
 
@@ -87,7 +85,6 @@ bool Reversi::thereIsConnection(int rows, int cols, std::string turn, std::strin
 
     if(cols != _defaultCols-1) {
       if(_board[rows+1][cols+1] == watching) {     //Embaixo-Direita
-              
         for(int i = rows+1, j = cols+1; i < _defaultRows && j < _defaultCols ; i++, j++) {
           if(_board[i][j] == watching) {
             continue;
@@ -105,7 +102,6 @@ bool Reversi::thereIsConnection(int rows, int cols, std::string turn, std::strin
 
     if (cols != 0) {
       if(_board[rows+1][cols-1] == watching) {     //Embaixo-Esquerda
-              
         for(int i = rows+1, j = cols-1; i < _defaultRows && j >= 0 ; i++, j--) {
           if(_board[i][j] == watching) {
             continue;
@@ -139,7 +135,6 @@ bool Reversi::thereIsConnection(int rows, int cols, std::string turn, std::strin
     }
     if(cols != _defaultCols-1) {
       if(_board[rows-1][cols+1] == watching) {     //Em cima-Direita
-                      
         for(int i = rows-1, j = cols+1; i >= 0 && j < _defaultCols ; i--, j++) {
           if(_board[i][j] == watching) {
             continue;
@@ -157,7 +152,6 @@ bool Reversi::thereIsConnection(int rows, int cols, std::string turn, std::strin
 
     if (cols != 0) {
       if(_board[rows-1][cols-1] == watching) {     //Em cima-Esquerda
-                      
         for(int i = rows-1, j = cols-1 ; i >= 0 && j >= 0 ; i--, j--) {
           if(_board[i][j] == watching) {
             continue;
@@ -213,12 +207,13 @@ bool Reversi::thereIsConnection(int rows, int cols, std::string turn, std::strin
 /**
  * @brief Realiza uma jogada no tabuleiro.
  * 
+ * Atualiza o tabuleiro após a jogada, virando as peças do oponente conforme necessário.
+ * 
  * @param rows Linha onde a peça será colocada.
  * @param cols Coluna onde a peça será colocada.
  * @param turn Peça do jogador atual.
  * @param watching Peça do outro jogador.
  */
-
 void Reversi::makeMove(int rows, int cols, std::string turn, std::string watching) {
   _board[rows][cols] = turn;
   if(rows != _defaultRows-1){
@@ -240,9 +235,8 @@ void Reversi::makeMove(int rows, int cols, std::string turn, std::string watchin
       }
     }
 
-    if(cols != _defaultCols-1) { //Evitar acesso indevido de memÃ³ria
+    if(cols != _defaultCols-1) { //Evitar acesso indevido de memória
       if(_board[rows+1][cols+1] == watching) {     //Embaixo-Direita
-                      
         for(int i = rows+1, j = cols+1; i < _defaultRows && j < _defaultCols ; i++, j++) {
           if(_board[i][j] == watching) {
             continue;
@@ -251,8 +245,8 @@ void Reversi::makeMove(int rows, int cols, std::string turn, std::string watchin
             break;
           } 
           else if(_board[i][j] == turn) {
-            for(int k = rows+1,m = cols+1;k <= i; k++, m++) {
-              _board[k][m] = turn;
+            for(int k = rows+1, l = cols+1; k <= i && l <= j ; k++, l++) {
+              _board[k][l] = turn;
             }
             break;
           }
@@ -260,19 +254,18 @@ void Reversi::makeMove(int rows, int cols, std::string turn, std::string watchin
       }
     }
 
-    if(cols != 0) { 
+    if (cols != 0) {
       if(_board[rows+1][cols-1] == watching) {     //Embaixo-Esquerda
-
         for(int i = rows+1, j = cols-1; i < _defaultRows && j >= 0 ; i++, j--) {
           if(_board[i][j] == watching) {
             continue;
           }
           else if(_board[i][j] == " ") {
             break;
-          }    
+          } 
           else if(_board[i][j] == turn) {
-            for(int k = rows+1,m = cols-1;k <= i; k++, m--) {
-              _board[k][m] = turn;
+            for(int k = rows+1, l = cols-1; k <= i && l >= j ; k++, l--) {
+              _board[k][l] = turn;
             }
             break;
           }
@@ -283,7 +276,7 @@ void Reversi::makeMove(int rows, int cols, std::string turn, std::string watchin
 
   if(rows != 0) {
     if(_board[rows-1][cols] == watching) {       //Em cima
-      for(int i = rows-1;i >= 0; i--){
+      for(int i = rows-1; i >= 0; i--) {
         if(_board[i][cols] == watching) {
           continue;
         }
@@ -291,7 +284,7 @@ void Reversi::makeMove(int rows, int cols, std::string turn, std::string watchin
           break;
         } 
         else if(_board[i][cols] == turn) {
-          for(int k = rows-1;k >= i; k--) {
+          for(int k = rows-1; k >= i; k--) {
             _board[k][cols] = turn;
           }
           break;
@@ -299,10 +292,8 @@ void Reversi::makeMove(int rows, int cols, std::string turn, std::string watchin
       }
     }
 
-    
-    if(cols != _defaultCols-1) { 
+    if(cols != _defaultCols-1) {
       if(_board[rows-1][cols+1] == watching) {     //Em cima-Direita
-            
         for(int i = rows-1, j = cols+1; i >= 0 && j < _defaultCols ; i--, j++) {
           if(_board[i][j] == watching) {
             continue;
@@ -311,8 +302,8 @@ void Reversi::makeMove(int rows, int cols, std::string turn, std::string watchin
             break;
           } 
           else if(_board[i][j] == turn) {
-            for(int k = rows-1,m = cols+1; k >= i; k--, m++) {
-              _board[k][m] = turn;
+            for(int k = rows-1, l = cols+1; k >= i && l <= j ; k--, l++) {
+              _board[k][l] = turn;
             }
             break;
           }
@@ -322,8 +313,7 @@ void Reversi::makeMove(int rows, int cols, std::string turn, std::string watchin
 
     if (cols != 0) {
       if(_board[rows-1][cols-1] == watching) {     //Em cima-Esquerda
-                
-        for(int i = rows-1, j = cols-1; i >= 0 && j >= 0 ; i--, j--) {
+        for(int i = rows-1, j = cols-1 ; i >= 0 && j >= 0 ; i--, j--) {
           if(_board[i][j] == watching) {
             continue;
           }
@@ -331,8 +321,8 @@ void Reversi::makeMove(int rows, int cols, std::string turn, std::string watchin
             break;
           } 
           else if(_board[i][j] == turn) {
-            for(int k = rows-1,m = cols-1; k >= i; k--, m--) {
-              _board[k][m] = turn;
+            for(int k = rows-1, l = cols-1 ; k >= i && l >= j ; k--, l--) {
+              _board[k][l] = turn;
             }
             break;
           }
@@ -342,8 +332,7 @@ void Reversi::makeMove(int rows, int cols, std::string turn, std::string watchin
   }
 
   if(cols != _defaultCols-1) {
-
-    if(_board[rows][cols+1] == watching) {                //Direita
+    if(_board[rows][cols+1] == watching) {       //Direita
       for(int i = cols+1;i < _defaultCols; i++) {
         if(_board[rows][i] == watching) {
           continue;
@@ -382,221 +371,52 @@ void Reversi::makeMove(int rows, int cols, std::string turn, std::string watchin
 }
 
 /**
- * @brief Conta o número de peças de cada jogador no tabuleiro.
- */
-
-void Reversi::piecesCounter() {
-  int auxXCounter = 0;
-  int auxOCounter = 0;
-  for(int i = 0;i < _defaultRows; i++) {
-    for(int j = 0;j < _defaultCols; j++) {
-      if(_board[i][j] == "X") {
-        auxXCounter++;
-      }
-      else if(_board[i][j] == "O") {
-        auxOCounter++;
-      }
-    }
-  }
-  _xCounter = auxXCounter;
-  _oCounter = auxOCounter;
-  std::cout << std::endl;
-  std::cout << "-------------------------------------" << std::endl;
-  std::cout << "|      X = " << _xCounter;         
-  std::cout << "      |      O = " << _oCounter << "      |" << std::endl;
-  std::cout << "-------------------------------------" << std::endl;
-  
-
-}
-
-/**
- * @brief Verifica se o tabuleiro está cheio.
+ * @brief Verifica se a peça atual pode ser colocada em uma posição específica.
  * 
- * @return true se o tabuleiro está cheio, false caso contrário.
- */
-
-bool Reversi::isBoardFull() const {
-
-  if(_xCounter+_oCounter == _defaultRows*_defaultCols)
-    return true;
-
-  return false; 
-}
-
-/**
- * @brief Verifica se há alguma jogada possível.
+ * @param rows Linha onde a peça será colocada.
+ * @param cols Coluna onde a peça será colocada.
  * @param turn Peça do jogador atual.
  * @param watching Peça do outro jogador.
- * @return true se há jogadas possíveis, false caso contrário.
+ * @return true se a peça pode ser colocada, false caso contrário.
  */
+bool Reversi::canPlay(int rows, int cols, std::string turn, std::string watching) {
+  bool playable = false;
 
-bool Reversi::isAnyPossiblePlay(std::string turn, std::string watching) {
-  for(int i = 0;i < _defaultRows; i++) {
-    for(int j = 0;j < _defaultCols; j++) {
-      if(_board[i][j] == " ") {
-        if(!thereIsNearby(i, j, watching)) {
-          continue;
-        }
-        if(!thereIsConnection(i, j, turn, watching)) {
-          continue;
-        }
-        return true;
-      }
-    }
+  if(_board[rows][cols] != " " || !thereIsNearby(rows, cols, watching)){
+    return false;
   }
-  return false;
+
+  playable = thereIsConnection(rows, cols, turn, watching);
+  return playable;
 }
 
 /**
- * @brief Realiza uma partida de Reversi entre dois jogadores.
+ * @brief Executa a jogada de um jogador.
  * 
- * @param player1 Ponteiro para o jogador 1.
- * @param player2 Ponteiro para o jogador 2.
+ * Recebe as coordenadas da jogada, verifica se a jogada é válida e, se for, a realiza.
+ * 
+ * @param turn Peça do jogador atual.
  */
+void Reversi::playMove(std::string turn) {
+  int rows, cols;
+  std::string watching = (turn == "X") ? "O" : "X";
 
-void Reversi::match(Player* player1, Player* player2) {
-  int row, col;
-  std::string currentPlayer = player1->getNickName();
-  std::string outerPlayer = player2->getNickName();
+  while (true) {
+    std::cout << "Player " << turn << " - Digite linha e coluna: ";
+    std::cin >> rows >> cols;
 
-  std::string turn = "X";
-  std::string watching = "O";
-
-  printBoard();
-  piecesCounter();
-
-  while(1) {
-    std::cout << "Vez de " << currentPlayer << " jogar(" << turn << "):" << std::endl << std::endl;
-    std::cin >> row;
-
-    if(std::cin.fail()) {
-      std::cin.clear();
-      std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-      std::cout << "ERRO: Entrada inválida." << std::endl;
+    if (std::cin.fail() || rows < 0 || rows >= _defaultRows || cols < 0 || cols >= _defaultCols) {
+      std::cin.clear(); // Limpa o estado de erro
+      std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // Ignora a entrada inválida
+      std::cout << "Entrada inválida! Por favor, insira números válidos.\n";
       continue;
     }
 
-    if(row == -1) {
-      std::cout << currentPlayer << " desistiu, vitória de " << outerPlayer << "." << std::endl;
-
-      if (outerPlayer == player1->getNickName()) {
-        player1->setVictories("reversi");
-        player2->setDefeats("reversi");
-      } else {
-        player1->setDefeats("reversi");
-        player2->setVictories("reversi");
-      }
-      std::cout << std::endl;
+    if (canPlay(rows, cols, turn, watching)) {
+      makeMove(rows, cols, turn, watching);
       break;
+    } else {
+      std::cout << "Jogada inválida! Tente novamente.\n";
     }
-
-    std::cin >> col;
-
-    if(std::cin.fail()) {
-      std::cin.clear();
-      std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-      std::cout << "ERRO: Entrada inválida." << std::endl;
-      continue;
-    }
-
-    //Necessário pois uma matriz inicia-se com 0,0 e não com 1,1
-    row--;
-    col--;
-
-    try{
-      if(row < 0 || row > _defaultRows - 1 || col < 0 || col > _defaultCols - 1) {
-        throw std::out_of_range("Posição fora dos limites do tabuleiro!");
-      }
-      if(_board[row][col] != " ") {
-        throw std::invalid_argument("Posição já ocupada!");
-      }
-      if(!thereIsNearby(row, col, watching)) {
-        throw std::invalid_argument("Não tem peça oposta adjacente.");
-      }
-      if(!thereIsConnection(row, col, turn, watching)) {
-        throw std::invalid_argument("Não tem conexão com outra peça do mesmo tipo.");
-      }
-
-    }catch (const std::out_of_range& e) {
-      std::cout << "ERRO:" << e.what() << std::endl;
-      continue;
-
-    }catch (const std::invalid_argument& e) {
-      std::cout << "ERRO:" << e.what() << std::endl;
-      continue;
-      
-    }
-    makeMove(row, col, turn, watching); //Antigo isPlaying
-    
-    printBoard();
-    piecesCounter();
-
-    if(_xCounter == 0 || _oCounter == 0){
-      std::string winner;
-
-      if(_xCounter == 0){
-        winner = turn == "O" ? currentPlayer : outerPlayer;                                //caso em que um player zera suas peças
-      }
-      else if(_oCounter == 0){
-        winner = turn == "X" ? currentPlayer : outerPlayer;
-      }
-
-      std::cout << std::endl << "Parabéns " << winner << "! Você venceu!" << std::endl;
-
-      if (winner == player1->getNickName()) {
-        player1->setVictories("reversi");
-        player2->setDefeats("reversi");
-      } else {
-        player1->setDefeats("reversi");
-        player2->setVictories("reversi");
-      }
-      std::cout << std::endl;
-      break;
-    }
-
-
-    if(isBoardFull()) {      
-      std::string winner;
-
-      if(_xCounter > _oCounter) {
-        winner = turn == "X" ? currentPlayer : outerPlayer;
-      } else if(_xCounter < _oCounter) {
-        winner = turn == "O" ? currentPlayer : outerPlayer;
-      } else {
-        std::cout << "O jogo terminou em empate!" << std::endl;
-        break;
-      }
-      std::cout << std::endl << "Parabéns " << winner << "! Você venceu!" << std::endl;
-
-      if (winner == player1->getNickName()) {
-        player1->setVictories("reversi");
-        player2->setDefeats("reversi");
-      } else {
-        player1->setDefeats("reversi");
-        player2->setVictories("reversi");
-      }
-      std::cout << std::endl;
-      break;
-    }
-
-    std::string aux = turn;
-    turn = watching;
-    watching = aux;
-
-    aux = currentPlayer;
-    currentPlayer = outerPlayer;
-    outerPlayer = aux;
-      
-    if(!isAnyPossiblePlay(turn, watching)) {
-      std::cout << std::endl << "Nao há jogadas possíveis para o(a) jogador(a) " << currentPlayer << std::endl;
-      std::string aux = turn;
-      turn = watching;
-      watching = aux;
-
-      aux = currentPlayer;
-      currentPlayer = outerPlayer;
-      outerPlayer = aux;
-    }
-
   }
 }
