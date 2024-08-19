@@ -22,25 +22,25 @@ Game::Game(int rows, int cols) : _defaultRows(rows), _defaultCols(cols) {
  * linhas e colunas com os valores correspondentes em cada célula.
  */
 void Game::printBoard() const {
-    std::cout << std::endl;
-    std::cout << "    ";
-    for (int col = 1; col <= _defaultCols; ++col) {
-        if (col > 1) {
-            std::cout << " " << col << "  ";
-        } else {
-            std::cout << col << "  ";
-        }
+  std::cout << std::endl;
+  std::cout << "    ";
+  for (int col = 1; col <= _defaultCols; ++col) {
+    if (col > 1) {
+      std::cout << " " << col << "  ";
+    } else {
+      std::cout << col << "  ";
+    }
+  }
+  std::cout << std::endl;
+
+  for (int i = 0; i < _defaultRows; ++i) {
+    std::cout << i + 1 << " | ";
+
+    for (int j = 0; j < _defaultCols; ++j) {
+      std::cout << _board[i][j] << " | ";
     }
     std::cout << std::endl;
-
-    for (int i = 0; i < _defaultRows; ++i) {
-        std::cout << i + 1 << " | ";
-
-        for (int j = 0; j < _defaultCols; ++j) {
-            std::cout << _board[i][j] << " | ";
-        }
-        std::cout << std::endl;
-    }
+  }
 }
 
 /**
@@ -53,10 +53,10 @@ void Game::printBoard() const {
  * @return Verdadeiro se o tabuleiro estiver cheio, falso caso contrário.
  */
 bool Game::isBoardFull() const {
-    for (const auto& row : _board) {
-        for (std::string cell : row) {
-            if (cell == " ") return false;
-        }
+  for (const auto& row : _board) {
+    for (std::string cell : row) {
+      if (cell == " ") return false;
     }
-    return true;
+  }
+  return true;
 }

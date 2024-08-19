@@ -25,6 +25,20 @@ Reversi::Reversi(int rows, int cols) : Game(rows, cols) {
 }
 
 /**
+ * @brief Retorna o conteúdo da posição especificada no tabuleiro.
+ * 
+ * O método é usado nos casos de teste do Reversi para verificar jogadas específicas.
+ * 
+ * @return O conteúdo da posição no tabuleiro.
+ */
+std::string Reversi::getBoardContent(int row, int col) const {
+  if(row < 0 || row >= _defaultRows || col < 0 || col >= _defaultCols) {
+    throw std::out_of_range("Posição fora dos limites do tabuleiro.");
+  }
+  return _board[row][col];
+}
+
+/**
  * @brief Verifica se há uma peça do oponente adjacente a uma posição.
  * 
  * @param rows Linha da posição a ser verificada.
@@ -34,6 +48,10 @@ Reversi::Reversi(int rows, int cols) : Game(rows, cols) {
  */
 
 bool Reversi::thereIsNearby(int rows, int cols, std::string watching) {
+
+  if(rows < 0 || rows > _defaultRows - 1 || cols < 0 || cols > _defaultCols - 1) {
+    throw std::out_of_range("Posição fora dos limites do tabuleiro!");
+  }
 
   bool top = (rows > 0);
   bool bottom = (rows + 1 < _defaultRows);
@@ -68,6 +86,10 @@ bool Reversi::thereIsNearby(int rows, int cols, std::string watching) {
 
 bool Reversi::thereIsConnection(int rows, int cols, std::string turn, std::string watching) {
   bool playable = false;
+
+  if(rows < 0 || rows > _defaultRows - 1 || cols < 0 || cols > _defaultCols - 1) {
+    throw std::out_of_range("Posição fora dos limites do tabuleiro!");
+  }
 
   if(!(rows == _defaultRows-1)) {
     if(_board[rows+1][cols] == watching) {            //Embaixo
@@ -220,6 +242,15 @@ bool Reversi::thereIsConnection(int rows, int cols, std::string turn, std::strin
  */
 
 void Reversi::makeMove(int rows, int cols, std::string turn, std::string watching) {
+
+  if(rows < 0 || rows > _defaultRows - 1 || cols < 0 || cols > _defaultCols - 1) {
+    throw std::out_of_range("Posição fora dos limites do tabuleiro!");
+  }
+
+  if(_board[rows][cols] != " ") {
+    throw std::invalid_argument("Posição já ocupada!");
+  }
+
   _board[rows][cols] = turn;
   if(rows != _defaultRows-1){
 
@@ -240,7 +271,7 @@ void Reversi::makeMove(int rows, int cols, std::string turn, std::string watchin
       }
     }
 
-    if(cols != _defaultCols-1) { //Evitar acesso indevido de memÃ³ria
+    if(cols != _defaultCols-1) { //Evitar acesso indevido de memória
       if(_board[rows+1][cols+1] == watching) {     //Embaixo-Direita
                       
         for(int i = rows+1, j = cols+1; i < _defaultRows && j < _defaultCols ; i++, j++) {
@@ -504,12 +535,6 @@ void Reversi::match(Player* player1, Player* player2) {
     col--;
 
     try{
-      if(row < 0 || row > _defaultRows - 1 || col < 0 || col > _defaultCols - 1) {
-        throw std::out_of_range("Posição fora dos limites do tabuleiro!");
-      }
-      if(_board[row][col] != " ") {
-        throw std::invalid_argument("Posição já ocupada!");
-      }
       if(!thereIsNearby(row, col, watching)) {
         throw std::invalid_argument("Não tem peça oposta adjacente.");
       }
@@ -517,17 +542,17 @@ void Reversi::match(Player* player1, Player* player2) {
         throw std::invalid_argument("Não tem conexão com outra peça do mesmo tipo.");
       }
 
+      makeMove(row, col, turn, watching);
+
     }catch (const std::out_of_range& e) {
-      std::cout << "ERRO:" << e.what() << std::endl;
+      std::cout << "ERRO: " << e.what() << std::endl;
       continue;
 
     }catch (const std::invalid_argument& e) {
-      std::cout << "ERRO:" << e.what() << std::endl;
+      std::cout << "ERRO: " << e.what() << std::endl;
       continue;
     }
 
-    makeMove(row, col, turn, watching);
-    
     printBoard();
     piecesCounter();
 

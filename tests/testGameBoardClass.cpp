@@ -266,18 +266,3 @@ TEST_CASE("Test readPlayersFromFile method") {
     std::remove(gb.FILENAME.c_str());
 }
 
-/* 
-SUBCASE("Testa início de jogo") {
-  GameBoard gb;
-  gb.clearPlayers();
-
-  gb.registerPlayer("Player1", "Name1");
-  gb.registerPlayer("Player2", "Name2");
-
-  // Isto exigiria implementações reais de Reversi, TicTacToe e ConnectFour para um teste completo.
-  // Por enquanto, apenas garantimos que a função não falhe.
-  CHECK_NOTHROW(gb.startGame("reversi", "Player1", "Player2"));
-  CHECK_NOTHROW(gb.startGame("tictactoe", "Player1", "Player2"));
-  CHECK_NOTHROW(gb.startGame("connectfour", "Player1", "Player2"));
-}
-*/
