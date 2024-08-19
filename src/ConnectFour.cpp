@@ -22,6 +22,7 @@ bool ConnectFour::isValidMove(int col) const {
 /**
  * @brief Faz uma jogada, colocando uma peça na coluna especificada.
  * @param col A coluna onde a peça será colocada.
+ * @param currentPiece Representa a peça atual.
  * @return Verdadeiro se a jogada for bem-sucedida, falso caso contrário.
  */
 bool ConnectFour::makeMove(int col, std::string currentPiece) {
@@ -39,6 +40,7 @@ bool ConnectFour::makeMove(int col, std::string currentPiece) {
 
 /**
  * @brief Verifica se o jogador atual ganhou.
+ * @param currentPiece Representa a peça atual.
  * @return Verdadeiro se o jogador ganhou, falso caso contrário.
  */
 bool ConnectFour::checkWin(std::string currentPiece) const {
@@ -47,6 +49,7 @@ bool ConnectFour::checkWin(std::string currentPiece) const {
 
 /**
  * @brief Verifica se há uma linha horizontal de quatro peças do jogador atual.
+ * @param currentPiece Representa a peça atual.
  * @return Verdadeiro se houver uma linha horizontal de quatro peças, falso caso contrário.
  */
 bool ConnectFour::checkHorizontal(std::string currentPiece) const {
@@ -63,6 +66,7 @@ bool ConnectFour::checkHorizontal(std::string currentPiece) const {
 
 /**
  * @brief Verifica se há uma linha vertical de quatro peças do jogador atual.
+ * @param currentPiece Representa a peça atual.
  * @return Verdadeiro se houver uma linha vertical de quatro peças, falso caso contrário.
  */
 bool ConnectFour::checkVertical(std::string currentPiece) const {
@@ -79,6 +83,7 @@ bool ConnectFour::checkVertical(std::string currentPiece) const {
 
 /**
  * @brief Verifica se há uma linha diagonal de quatro peças do jogador atual.
+ * @param currentPiece Representa a peça atual.
  * @return Verdadeiro se houver uma linha diagonal de quatro peças, falso caso contrário.
  */
 bool ConnectFour::checkDiagonal(std::string currentPiece) const {
@@ -127,6 +132,7 @@ void ConnectFour::printBoard() const {
 
 /**
  * @brief Conta o número de possíveis formas de ganhar para o jogador atual.
+ * @param currentPiece Representa a peça atual.
  * @return Número de possíveis formas de ganhar.
  */
 void ConnectFour::countPossibleWins(std::string currentPiece) const {	

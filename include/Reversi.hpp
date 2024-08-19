@@ -39,6 +39,7 @@ class Reversi : public Game {
       * 
       * @param rows A linha onde a peça vai ser jogada após a verificação.
       * @param cols A coluna onde a peça vai ser jogada após a verificação.
+      * @param watching Representa a peça do outro jogador.
       * @return true se tem uma peça oposta em posição adjacente, false se não tem.
       */
     bool thereIsNearby(int rows, int cols, std::string watching);
@@ -48,6 +49,8 @@ class Reversi : public Game {
       * 
       * @param rows A linha da peça que precisa ser verificada.
       * @param cols A coluna da peça que precisa ser verificada.
+      * @param turn Representa a peça do jogador.
+      * @param watching Representa a peça do outro jogador.
       * @return True se tem uma conexão, false se não tem.
       */
     bool thereIsConnection(int rows, int cols, std::string turn, std::string watching);
@@ -60,7 +63,8 @@ class Reversi : public Game {
 
     /**
       * @brief Checa se existe alguma jogada possível.
-      * 
+      * @param turn Representa a peça do jogador.
+      * @param watching Representa a peça do outro jogador.
       * @return true se tem alguma jogada possível, false se não tem.
       */
     bool isAnyPossiblePlay(std::string turn, std::string watching);
@@ -78,6 +82,8 @@ class Reversi : public Game {
       * 
       * @param rows A linha de sua jogada.
       * @param cols A coluna de sua jogada.
+      * @param turn Representa a peça do jogador.
+      * @param watching Representa a peça do outro jogador.
       */
     void makeMove(int rows, int cols, std::string turn, std::string watching);
 

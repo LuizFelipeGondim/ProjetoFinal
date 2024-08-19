@@ -11,6 +11,8 @@ class TicTacToe : public Game {
     /**
      * @brief Construtor da classe TicTacToe.
      * Inicializa um tabuleiro 3x3 para o jogo.
+     * @param rows A linha de sua jogada.
+     * @param cols A coluna de sua jogada.
      */
     TicTacToe(int rows, int cols);
     

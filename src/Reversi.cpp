@@ -28,7 +28,8 @@ Reversi::Reversi(int rows, int cols) : Game(rows, cols) {
  * @brief Retorna o conteúdo da posição especificada no tabuleiro.
  * 
  * O método é usado nos casos de teste do Reversi para verificar jogadas específicas.
- * 
+ * @param row Número de linhas do tabuleiro.
+ * @param col Número de colunas do tabuleiro.
  * @return O conteúdo da posição no tabuleiro.
  */
 std::string Reversi::getBoardContent(int row, int col) const {
@@ -413,7 +414,7 @@ void Reversi::makeMove(int rows, int cols, std::string turn, std::string watchin
 }
 
 /**
- * @brief Conta o número de peças de cada jogador no tabuleiro.
+ * @brief Conta o número de peças de cada jogador no tabuleiro e mostra.
  */
 
 void Reversi::piecesCounter() {
